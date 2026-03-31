@@ -440,7 +440,34 @@
 // --- REGISTRASI PWA SERVICE WORKER ---
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').then(reg => console.log('SW terdaftar')).catch(err => console.log('SW error:', err));
+    navigator.serviceWorker.register('sw.js').then(reg => {
+      console.log('SW terdaftar');
+      
+      // Deteksi jika ada pembaruan di sw.js
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            // Jika ada versi baru, tampilkan notifikasi dan reload otomatis
+            if (typeof showToast === 'function') {
+                showToast('🚀 Memperbarui aplikasi ke versi terbaru...');
+            }
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+          }
+        });
+      });
+      
+    }).catch(err => console.log('SW error:', err));
+  });
+
+  // Reload halaman secara otomatis saat Service Worker baru mengambil alih
+  let refreshing;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (refreshing) return;
+    refreshing = true;
+    window.location.reload();
   });
 }
 
