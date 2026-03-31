@@ -1,12 +1,16 @@
-const CACHE_NAME = 'mutabaah-cache-v2';
+// UBAH ANGKA VERSI INI SETIAP KALI ADA UPDATE FITUR (Misal: v3, v4, v5)
+const CACHE_NAME = 'mutabaah-cache-v3'; 
+
 const urlsToCache = [
-  './mutabaah2.html',
+  './',
+  './index.html', // CATATAN: Jika kamu belum me-rename file ke index.html di GitHub, ganti baris ini jadi './mutabaah2.html'
   './manifest.json',
   './icon-192.png',
   './icon-512.png'
 ];
 
 self.addEventListener('install', event => {
+  self.skipWaiting(); // KUNCI 1: Memaksa Service Worker baru langsung aktif tanpa menunggu
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
@@ -29,8 +33,12 @@ self.addEventListener('activate', event => {
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.filter(cacheName => cacheName !== CACHE_NAME)
-          .map(cacheName => caches.delete(cacheName))
+          .map(cacheName => {
+             console.log('Menghapus cache versi lama:', cacheName);
+             return caches.delete(cacheName);
+          })
       );
     })
   );
+  self.clients.claim(); // KUNCI 2: Langsung mengambil alih kontrol halaman di HP pengguna
 });
