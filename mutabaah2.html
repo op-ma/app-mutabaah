@@ -100,6 +100,37 @@
       .filter-actions { flex-direction: row; flex-wrap: wrap; justify-content: center; }
       .btn-filter, .btn-reset, .btn-download, .btn-pdf { width: auto; padding: 0 24px; }
     }
+	
+/* --- TAMPILAN ABSENSI MODERN --- */
+.radio-group-absen {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+.radio-group-absen input[type="radio"] {
+  display: none; /* Sembunyikan bulatan asli */
+}
+.radio-group-absen label {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 15px;
+  color: #6c757d;
+  background: #f8f9fa;
+  border: 2px solid #dee2e6;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 0;
+}
+/* Efek saat diklik / dipilih */
+.radio-group-absen input[value="H"]:checked + label { background: #27ae60; color: white; border-color: #27ae60; box-shadow: 0 4px 10px rgba(39,174,96,0.3); }
+.radio-group-absen input[value="S"]:checked + label { background: #f39c12; color: white; border-color: #f39c12; box-shadow: 0 4px 10px rgba(243,156,18,0.3); }
+.radio-group-absen input[value="I"]:checked + label { background: #2980b9; color: white; border-color: #2980b9; box-shadow: 0 4px 10px rgba(41,128,185,0.3); }
+.radio-group-absen input[value="A"]:checked + label { background: #c0392b; color: white; border-color: #c0392b; box-shadow: 0 4px 10px rgba(192,57,43,0.3); }
   </style>
 </head>
 <body>
@@ -233,17 +264,14 @@
 
       <div class="table-container" id="containerTabelAbsen" style="display:none; background:#fff; padding:10px; border-radius:14px; overflow-x: auto;">
         <table id="tblInputAbsen" style="display: table; width: 100%;">
-          <thead>
-            <tr>
-              <th style="text-align:left; background: #2980b9;">Nama Santri</th>
-              <th width="40" style="background: #27ae60;">H</th>
-              <th width="40" style="background: #f39c12;">S</th>
-              <th width="40" style="background: #2980b9;">I</th>
-              <th width="40" style="background: #c0392b;">A</th>
-            </tr>
-          </thead>
-          <tbody id="bodyInputAbsen"></tbody>
-        </table>
+  <thead>
+    <tr>
+      <th style="text-align:left; background: #2980b9; padding: 12px;">Nama Santri</th>
+      <th style="text-align:center; background: #27ae60; padding: 12px;">Status Absensi</th>
+    </tr>
+  </thead>
+  <tbody id="bodyInputAbsen"></tbody>
+</table>
         <button class="btn" onclick="simpanDataAbsensi()" style="margin-top:15px; background:#0a8f5a;">
           <i class="fa-solid fa-floppy-disk"></i> Simpan Absensi
         </button>
@@ -251,11 +279,44 @@
     </div>
 
     <div id="areaRekapAbsensi" style="display: none;">
-<div style="background:#fff; padding:15px; border-radius:14px; margin-bottom:15px; display:flex; gap:10px; flex-wrap: wrap;">
-  <input type="month" id="filterBulanAbsen" onchange="renderRekapAbsensi()" style="flex:1; min-width: 150px; height: 54px; border-radius:10px; border:2px solid #e0e0e0; padding:0 16px; margin-bottom: 0;">
-  <button onclick="exportAbsenExcel()" style="background:#27ae60; color:#fff; border:none; border-radius:10px; padding:0 15px; height: 54px; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-file-excel"></i> Excel</button>
-  <button onclick="exportAbsenPDF()" style="background:#e74c3c; color:#fff; border:none; border-radius:10px; padding:0 15px; height: 54px; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-file-pdf"></i> PDF</button>
-</div>
+      <div class="filter-container">
+        <div style="font-size: 16px; font-weight: 700; color: #0a8f5a; margin-bottom: 15px; text-align: center;"><i class="fa-solid fa-filter"></i> Filter Data Absensi</div>
+        <div class="filter-grid">
+          <div class="filter-group">
+            <label>Nama Santri</label>
+            <select id="filterNamaAbsen" onchange="renderRekapAbsensi()">
+              <option value="">Semua Santri</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Periode Waktu</label>
+            <select id="filterPeriodeAbsen" onchange="updatePeriodeAbsenInput(); renderRekapAbsensi();">
+              <option value="">Semua Waktu</option>
+              <option value="hari">Per Hari (Tanggal)</option>
+              <option value="minggu">Per Minggu</option>
+              <option value="bulan">Per Bulan</option>
+            </select>
+          </div>
+          <div class="filter-group" id="groupAbsenHari" style="display: none;">
+            <label>Pilih Tanggal</label>
+            <input type="date" id="filterAbsenHari" onchange="renderRekapAbsensi()">
+          </div>
+          <div class="filter-group" id="groupAbsenMinggu" style="display: none;">
+            <label>Pilih Minggu</label>
+            <input type="week" id="filterAbsenMinggu" onchange="renderRekapAbsensi()">
+          </div>
+          <div class="filter-group" id="groupAbsenBulan" style="display: none;">
+            <label>Pilih Bulan</label>
+            <input type="month" id="filterAbsenBulan" onchange="renderRekapAbsensi()">
+          </div>
+        </div>
+        <div class="filter-actions">
+          <button class="btn-reset" onclick="resetFilterAbsen()"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+          <button class="btn-download" onclick="exportAbsenExcel()"><i class="fa-solid fa-file-excel"></i> Excel</button>
+          <button class="btn-pdf" onclick="exportAbsenPDF()"><i class="fa-solid fa-file-pdf"></i> PDF</button>
+        </div>
+      </div>
+
        <div class="table-container" style="overflow-x: auto; background:#fff; border-radius:14px;">
           <table id="tblRekapAbsensi" style="display: table; width: 100%;">
             <thead>
@@ -271,8 +332,6 @@
           </table>
        </div>
     </div>
-  </div>
-</div>
 
 <div id="rekapPage" style="display: none;">
   <button class="back-btn" onclick="kembaliKeMenu()"><i class="fa-solid fa-arrow-left"></i> Kembali ke Menu</button>
@@ -631,11 +690,11 @@ function switchTabAbsensi(tab) {
         document.getElementById('btnTabInputAbsen').style.background = '#7f8c8d';
         document.getElementById('btnTabRekapAbsen').style.background = '#0a8f5a';
         
-        if(!document.getElementById('filterBulanAbsen').value) {
-            let today = new Date();
-            let month = String(today.getMonth() + 1).padStart(2, '0');
-            document.getElementById('filterBulanAbsen').value = `${today.getFullYear()}-${month}`;
-        }
+        // Muat daftar santri ke filter dropdown
+        const santriMaster = getSantriData();
+        document.getElementById('filterNamaAbsen').innerHTML = '<option value="">Semua Santri</option>' + santriMaster.map(s => `<option value="${s.nama}">${s.nama}</option>`).join('');
+        
+        // Render tabel dengan filter default (kosong/semua)
         renderRekapAbsensi();
     }
 }
@@ -666,20 +725,35 @@ function generateFormAbsen() {
     tbody.innerHTML = '';
     
     santriMaster.forEach((s, index) => {
-        let statusDefault = 'H'; 
-        let existing = existingAbsen.find(a => a.nama === s.nama);
-        if(existing) statusDefault = existing.status;
-        
-        tbody.innerHTML += `
-            <tr>
-                <td style="text-align:left; font-weight:600; font-size:14px; border-bottom: 1px solid #eee; padding: 10px 5px;">${s.nama}</td>
-                <td style="border-bottom: 1px solid #eee; text-align:center;"><input type="radio" name="absen_${index}" value="H" ${statusDefault === 'H' ? 'checked' : ''} style="width:20px; height:20px; accent-color:#27ae60;"></td>
-                <td style="border-bottom: 1px solid #eee; text-align:center;"><input type="radio" name="absen_${index}" value="S" ${statusDefault === 'S' ? 'checked' : ''} style="width:20px; height:20px; accent-color:#f39c12;"></td>
-                <td style="border-bottom: 1px solid #eee; text-align:center;"><input type="radio" name="absen_${index}" value="I" ${statusDefault === 'I' ? 'checked' : ''} style="width:20px; height:20px; accent-color:#2980b9;"></td>
-                <td style="border-bottom: 1px solid #eee; text-align:center;"><input type="radio" name="absen_${index}" value="A" ${statusDefault === 'A' ? 'checked' : ''} style="width:20px; height:20px; accent-color:#c0392b;"></td>
-            </tr>
-        `;
-    });
+    // 1. KOSONGKAN DEFAULT AGAR TIDAK TERISI OTOMATIS
+    let statusDefault = ''; 
+    
+    // Jika sudah pernah disimpan sebelumnya, panggil datanya
+    let existing = existingAbsen.find(a => a.nama === s.nama);
+    if(existing) statusDefault = existing.status;
+    
+    // 2. RENDER TOMBOL MODERN
+    tbody.innerHTML += `
+        <tr>
+            <td style="text-align:left; font-weight:600; font-size:14px; border-bottom: 1px solid #eee; padding: 12px 10px; vertical-align: middle;">${s.nama}</td>
+            <td style="border-bottom: 1px solid #eee; text-align:center; padding: 10px;">
+                <div class="radio-group-absen">
+                    <input type="radio" id="H_${index}" name="absen_${index}" value="H" ${statusDefault === 'H' ? 'checked' : ''}>
+                    <label for="H_${index}">H</label>
+
+                    <input type="radio" id="S_${index}" name="absen_${index}" value="S" ${statusDefault === 'S' ? 'checked' : ''}>
+                    <label for="S_${index}">S</label>
+
+                    <input type="radio" id="I_${index}" name="absen_${index}" value="I" ${statusDefault === 'I' ? 'checked' : ''}>
+                    <label for="I_${index}">I</label>
+
+                    <input type="radio" id="A_${index}" name="absen_${index}" value="A" ${statusDefault === 'A' ? 'checked' : ''}>
+                    <label for="A_${index}">A</label>
+                </div>
+            </td>
+        </tr>
+    `;
+});
     
     document.getElementById('containerTabelAbsen').style.display = 'block';
 }
@@ -697,40 +771,91 @@ function simpanDataAbsensi() {
     absenData = absenData.filter(a => !(a.tanggal === tanggal && a.waktu === waktu));
     
     let jumlahDisimpan = 0;
+    let adaYangKosong = false; // Penanda jika ada yang terlewat
+
     rows.forEach((row, index) => {
         const nama = row.querySelector('td').innerText;
         const radios = row.querySelectorAll(`input[name="absen_${index}"]`);
-        let status = 'H';
+        
+        let status = ''; // Mulai dengan kosong
         radios.forEach(r => { if(r.checked) status = r.value; });
         
-        absenData.push({
-            id: new Date().getTime() + index,
-            tanggal: tanggal,
-            waktu: waktu,
-            nama: nama,
-            status: status
-        });
-        jumlahDisimpan++;
+        if (!status) {
+            adaYangKosong = true; // Terdeteksi ada yang belum dipilih
+        } else {
+            absenData.push({
+                id: new Date().getTime() + index,
+                tanggal: tanggal,
+                waktu: waktu,
+                nama: nama,
+                status: status
+            });
+            jumlahDisimpan++;
+        }
     });
+
+    // Peringatan jika ada tombol yang belum diklik
+    if (adaYangKosong) {
+        alert('Gagal menyimpan! Masih ada santri yang belum diisi status absensinya.');
+        return; // Batalkan proses simpan
+    }
     
     saveAbsensiData(absenData);
     showToast(`Absensi ${jumlahDisimpan} santri berhasil disimpan!`);
 }
 
 function renderRekapAbsensi() {
-    const filterBulan = document.getElementById('filterBulanAbsen').value;
+    const fNama = document.getElementById('filterNamaAbsen').value;
+    const fPeriode = document.getElementById('filterPeriodeAbsen').value;
     const absenData = getAbsensiData();
     const tbody = document.getElementById('bodyRekapAbsensi');
     tbody.innerHTML = '';
     
-    let filtered = filterBulan ? absenData.filter(a => a.tanggal.startsWith(filterBulan)) : absenData;
+    // Logika Filter
+    let filtered = absenData.filter(a => {
+        let include = true;
+        
+        // Filter Nama
+        if (fNama && a.nama !== fNama) include = false;
+        
+        // Filter Periode Waktu
+        if (include && fPeriode) {
+            const rowDate = new Date(a.tanggal);
+            
+            if (fPeriode === 'hari') {
+                const fHari = document.getElementById('filterAbsenHari').value;
+                if (fHari && a.tanggal !== fHari) include = false;
+            } 
+            else if (fPeriode === 'minggu') {
+                const fMinggu = document.getElementById('filterAbsenMinggu').value;
+                if (fMinggu) {
+                    const [y, w] = fMinggu.split('-W');
+                    const startWeek = getDateOfISOWeek(w, y);
+                    const endWeek = new Date(startWeek); 
+                    endWeek.setDate(endWeek.getDate() + 6);
+                    if (rowDate < startWeek || rowDate > endWeek) include = false;
+                }
+            } 
+            else if (fPeriode === 'bulan') {
+                const fBulan = document.getElementById('filterAbsenBulan').value;
+                if (fBulan && !a.tanggal.startsWith(fBulan)) include = false;
+            }
+        }
+        return include;
+    });
+    
+    // Urutkan dari yang terbaru
     filtered.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+    
+    // Simpan ke variabel global untuk keperluan Export Excel & PDF
+    filteredAbsenData = filtered;
     
     if(filtered.length === 0) {
         tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px;">Tidak ada data absensi</td></tr>';
         return;
     }
     
+    // Render Tabel
     filtered.forEach(data => {
         let statusBadge = '';
         if(data.status === 'H') statusBadge = '<span style="background:#27ae60; color:#fff; padding:4px 10px; border-radius:12px; font-size:12px; font-weight:bold;">Hadir</span>';
@@ -761,6 +886,25 @@ function hapusAbsensi(id) {
     saveAbsensiData(absenData);
     renderRekapAbsensi();
     showToast('Data absensi dihapus!');
+}
+
+let filteredAbsenData = []; // Variabel global untuk menyimpan data absen yang sudah difilter
+
+function updatePeriodeAbsenInput() {
+    const p = document.getElementById('filterPeriodeAbsen').value;
+    document.getElementById('groupAbsenHari').style.display = p === 'hari' ? 'block' : 'none';
+    document.getElementById('groupAbsenMinggu').style.display = p === 'minggu' ? 'block' : 'none';
+    document.getElementById('groupAbsenBulan').style.display = p === 'bulan' ? 'block' : 'none';
+}
+
+function resetFilterAbsen() {
+    document.getElementById('filterNamaAbsen').value = '';
+    document.getElementById('filterPeriodeAbsen').value = '';
+    document.getElementById('filterAbsenHari').value = '';
+    document.getElementById('filterAbsenMinggu').value = '';
+    document.getElementById('filterAbsenBulan').value = '';
+    updatePeriodeAbsenInput();
+    renderRekapAbsensi();
 }
 
 /* ==========================================
@@ -1128,17 +1272,10 @@ function prosesImportExcel(event) {
 // ==========================================
 
 function exportAbsenExcel() {
-    const filterBulan = document.getElementById('filterBulanAbsen').value;
-    let absenData = getAbsensiData();
-    
-    // Filter data sesuai bulan yang dipilih (jika ada)
-    let filtered = filterBulan ? absenData.filter(a => a.tanggal.startsWith(filterBulan)) : absenData;
-    filtered.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
-
-    if(filtered.length === 0) return alert('Tidak ada data absensi untuk diexport!');
+    if(filteredAbsenData.length === 0) return alert('Tidak ada data absensi untuk diexport!');
 
     const headers = ['Tanggal', 'Waktu', 'Nama Santri', 'Status'];
-    const data = filtered.map(d => {
+    const data = filteredAbsenData.map(d => {
         let statusFull = d.status === 'H' ? 'Hadir' : (d.status === 'S' ? 'Sakit' : (d.status === 'I' ? 'Izin' : 'Alpa'));
         return [d.tanggal, d.waktu, d.nama, statusFull];
     });
@@ -1147,43 +1284,30 @@ function exportAbsenExcel() {
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Rekap Absensi");
     
-    let namaFile = filterBulan ? `Rekap_Absensi_${filterBulan}.xlsx` : `Rekap_Absensi_Semua.xlsx`;
-    XLSX.writeFile(wb, namaFile);
-    
-    if(typeof showToast === 'function') showToast('Excel Absensi berhasil di-download!');
+    let n = new Date();
+    XLSX.writeFile(wb, `Rekap_Absensi_${n.getFullYear()}${String(n.getMonth()+1).padStart(2,'0')}${String(n.getDate()).padStart(2,'0')}.xlsx`);
+    showToast('Excel Absensi berhasil di-download!');
 }
 
 function exportAbsenPDF() {
-    const filterBulan = document.getElementById('filterBulanAbsen').value;
-    let absenData = getAbsensiData();
-    
-    // Filter data sesuai bulan yang dipilih
-    let filtered = filterBulan ? absenData.filter(a => a.tanggal.startsWith(filterBulan)) : absenData;
-    filtered.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
-
-    if(filtered.length === 0) return alert('Tidak ada data absensi untuk diexport!');
+    if(filteredAbsenData.length === 0) return alert('Tidak ada data absensi untuk diexport!');
 
     const { jsPDF } = window.jspdf;
-    const doc = new jsPDF('p', 'mm', 'a4'); // Kertas A4 mode Portrait
+    const doc = new jsPDF('p', 'mm', 'a4'); 
     
-    // Judul PDF
     doc.setFontSize(16); doc.setTextColor(10, 143, 90); doc.text('REKAPITULASI ABSENSI HALQOH', 105, 15, { align: 'center' });
     doc.setFontSize(12); doc.setTextColor(100); doc.text('MUTABAAH DIGITAL PRO', 105, 22, { align: 'center' });
-    
-    let infoBulan = filterBulan ? `Periode Bulan: ${filterBulan}` : 'Semua Data Absensi';
-    doc.setFontSize(10); doc.text(infoBulan, 105, 28, { align: 'center' });
 
     // Menyusun data tabel
-    const td = filtered.map((d, i) => {
+    const td = filteredAbsenData.map((d, i) => {
         let statusFull = d.status === 'H' ? 'Hadir' : (d.status === 'S' ? 'Sakit' : (d.status === 'I' ? 'Izin' : 'Alpa'));
         return [i+1, d.tanggal, d.waktu, d.nama, statusFull];
     });
 
-    // Membuat tabel
     doc.autoTable({
         head: [['No', 'Tanggal', 'Waktu', 'Nama Santri', 'Status']],
         body: td,
-        startY: 35,
+        startY: 30,
         theme: 'grid',
         headStyles: { fillColor: [10, 143, 90], textColor: 255, halign: 'center' },
         bodyStyles: { halign: 'center', valign: 'middle' },
@@ -1191,14 +1315,11 @@ function exportAbsenPDF() {
         alternateRowStyles: { fillColor: [240, 248, 240] }
     });
 
-    // Keterangan waktu cetak
-    doc.setFontSize(9); doc.setTextColor(100); doc.text(`Dicetak pada: ${new Date().toLocaleString('id-ID')}`, 105, doc.lastAutoTable.finalY + 10, { align: 'center' });
+    doc.setFontSize(9); doc.setTextColor(100); doc.text(`Dicetak pada: ${new Date().toLocaleString('id-ID')} | Total Data: ${filteredAbsenData.length}`, 105, doc.lastAutoTable.finalY + 10, { align: 'center' });
     
-    // Download File
-    let namaFile = filterBulan ? `Rekap_Absensi_${filterBulan}.pdf` : `Rekap_Absensi_Semua.pdf`;
-    doc.save(namaFile);
-    
-    if(typeof showToast === 'function') showToast('PDF Absensi berhasil di-download!');
+    let n = new Date();
+    doc.save(`Rekap_Absensi_${n.getFullYear()}${String(n.getMonth()+1).padStart(2,'0')}${String(n.getDate()).padStart(2,'0')}.pdf`);
+    showToast('PDF Absensi berhasil di-download!');
 }
 
 </script>
