@@ -160,8 +160,28 @@
   <div class="stats-card">
     <div class="stats-number" id="totalSetoran">0</div>
     <div class="stats-label">Total Setoran Tercatat</div>
+
+
+  <div class="menu-card" style="margin-top: 20px; padding: 15px;">
+    <div style="font-size: 14px; font-weight: 800; color: #0a8f5a; margin-bottom: 12px; text-transform: uppercase;">
+      <i class="fa-solid fa-database"></i> Backup & Restore Data
+    </div>
+    <div style="display: flex; gap: 10px;">
+      <button class="btn" style="margin-top: 0; background: #2c3e50; flex: 1; font-size: 14px; height: 48px;" onclick="backupDataLocal()">
+        <i class="fa-solid fa-download"></i> Backup
+      </button>
+      <button class="btn" style="margin-top: 0; background: #d35400; flex: 1; font-size: 14px; height: 48px;" onclick="document.getElementById('fileRestore').click()">
+        <i class="fa-solid fa-upload"></i> Restore
+      </button>
+      <input type="file" id="fileRestore" accept=".json" style="display:none" onchange="restoreDataLocal(event)">
+    </div>
+    <p style="font-size: 11px; color: #7f8c8d; margin-top: 10px; margin-bottom: 0; text-align: center; line-height: 1.4;">
+      Lakukan <b>Backup</b> sebelum mengupdate aplikasi agar data tidak hilang. Gunakan <b>Restore</b> untuk mengembalikan data.
+    </p>
+  </div>
   </div>
 </div>
+
 
 <div id="mainAppPage" style="display: none;">
   <button class="back-btn" onclick="kembaliKeMenu()"><i class="fa-solid fa-arrow-left"></i> Kembali ke Menu</button>
@@ -1323,6 +1343,87 @@ function exportAbsenPDF() {
     let n = new Date();
     doc.save(`Rekap_Absensi_${n.getFullYear()}${String(n.getMonth()+1).padStart(2,'0')}${String(n.getDate()).padStart(2,'0')}.pdf`);
     showToast('PDF Absensi berhasil di-download!');
+}
+// ==========================================
+// FITUR BACKUP & RESTORE DATA (JSON)
+// ==========================================
+
+// 1. Fungsi Export/Backup Data
+function backupDataLocal() {
+    // Ambil semua data dari localStorage
+    const dataToBackup = {
+        setoran: localStorage.getItem('mutabaah_data'),
+        santri: localStorage.getItem('mutabaah_master_santri'),
+        absensi: localStorage.getItem('mutabaah_absensi')
+    };
+
+    // Ubah menjadi string format JSON
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dataToBackup));
+    
+    // Buat elemen anchor (link) tersembunyi untuk proses download
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    
+    // Buat nama file dinamis berdasarkan tanggal
+    const date = new Date();
+    const dateString = `${date.getFullYear()}${String(date.getMonth()+1).padStart(2,'0')}${String(date.getDate()).padStart(2,'0')}`;
+    downloadAnchorNode.setAttribute("download", `Backup_Mutabaah_${dateString}.json`);
+    
+    // Eksekusi klik download
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+    
+    if(typeof showToast === 'function') showToast('Backup data berhasil diunduh!');
+}
+
+// 2. Fungsi Import/Restore Data
+function restoreDataLocal(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    if(typeof showLoading === 'function') showLoading(true);
+
+    reader.onload = function(e) {
+        try {
+            // Parsing file JSON yang diupload
+            const restoredData = JSON.parse(e.target.result);
+            
+            // Validasi sederhana memastikan ini adalah file backup dari aplikasi ini
+            if(restoredData.setoran !== undefined || restoredData.santri !== undefined || restoredData.absensi !== undefined) {
+                
+                // Minta konfirmasi pengguna karena ini akan menimpa data lama
+                if(confirm('PERINGATAN: Restore akan menimpa SELURUH data yang ada di HP ini. Pastikan file backup sudah benar. Anda yakin ingin melanjutkan?')) {
+                    
+                    // Kembalikan ke localStorage
+                    if(restoredData.setoran) localStorage.setItem('mutabaah_data', restoredData.setoran);
+                    if(restoredData.santri) localStorage.setItem('mutabaah_master_santri', restoredData.santri);
+                    if(restoredData.absensi) localStorage.setItem('mutabaah_absensi', restoredData.absensi);
+                    
+                    if(typeof showLoading === 'function') showLoading(false);
+                    alert('Restore data berhasil! Aplikasi akan dimuat ulang agar data baru diterapkan.');
+                    
+                    // Reload halaman agar semua variabel dan tabel membaca data yang baru direstore
+                    window.location.reload(); 
+                } else {
+                    if(typeof showLoading === 'function') showLoading(false);
+                }
+            } else {
+                if(typeof showLoading === 'function') showLoading(false);
+                alert('Gagal! Format file tidak valid atau bukan dari aplikasi Mutabaah.');
+            }
+        } catch (error) {
+            if(typeof showLoading === 'function') showLoading(false);
+            alert("Terjadi kesalahan saat membaca file: " + error.message);
+        } finally {
+            // Reset input file agar bisa memilih file yang sama lagi jika perlu
+            event.target.value = ""; 
+        }
+    };
+
+    // Baca file sebagai teks
+    reader.readAsText(file);
 }
 
 </script>
