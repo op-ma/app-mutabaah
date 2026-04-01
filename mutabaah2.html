@@ -238,12 +238,24 @@
   <div id="sectionSantri" style="display: none;">
     <h3><i class="fa-solid fa-users"></i> Master Data Santri</h3>
     
-    <div style="background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px;">
+    <div style="background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 15px;">
       <label style="font-weight: bold; font-size: 14px; color: #333;">Tambah Santri Baru</label>
       <div style="display: flex; gap: 10px; margin-top: 5px; flex-wrap: wrap;">
         <input type="text" id="inputNamaSantri" placeholder="Nama lengkap santri..." style="flex: 2; min-width: 150px; margin-bottom: 0;">
         <input type="text" id="inputKelompokSantri" placeholder="Kelas / Kelompok..." style="flex: 1; min-width: 120px; margin-bottom: 0;">
         <button onclick="tambahSantri()" style="background: #8e44ad; color: white; border: none; padding: 0 20px; border-radius: 10px; cursor: pointer; font-weight: bold; height: 54px;">Tambah</button>
+      </div>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; background: #fff; padding: 10px 15px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+      <div style="font-size: 12px; color: #666;">
+        <b>Format Excel:</b> Baris 1 harus berisi <span style="color:#0a8f5a">Nama</span> dan <span style="color:#0a8f5a">Kelompok</span>
+      </div>
+      <div>
+        <button onclick="document.getElementById('fileImportSantri').click()" style="background: #27ae60; color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px;">
+          <i class="fa-solid fa-file-import"></i> Import Excel
+        </button>
+        <input type="file" id="fileImportSantri" accept=".xlsx, .xls" style="display:none" onchange="prosesImportSantri(event)">
       </div>
     </div>
 
@@ -1453,6 +1465,81 @@ function restoreDataLocal(event) {
     reader.readAsText(file);
 }
 
+function prosesImportSantri(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    if(typeof showLoading === 'function') showLoading(true);
+
+    reader.onload = function(e) {
+        try {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+            
+            // Konversi Excel ke JSON
+            const jsonData = XLSX.utils.sheet_to_json(firstSheet, { defval: "" });
+
+            if (jsonData.length === 0) {
+                if(typeof showLoading === 'function') showLoading(false);
+                alert("File kosong atau format tidak sesuai.");
+                return;
+            }
+
+            let santriMaster = getSantriData();
+            let jumlahBaru = 0;
+            let jumlahLewat = 0; // Untuk menghitung data yang duplikat
+
+            jsonData.forEach((row, index) => {
+                // Mendeteksi berbagai kemungkinan nama kolom header di Excel
+                const nama = row['Nama'] || row['Nama Santri'] || row['NAMA'] || row['nama'] || '';
+                const kelompok = row['Kelompok'] || row['Kelas'] || row['KELOMPOK'] || row['kelompok'] || '';
+
+                if (nama.trim() !== '') {
+                    // Cek apakah santri sudah ada di sistem (agar tidak duplikat)
+                    const isDuplicate = santriMaster.some(s => s.nama.toLowerCase() === nama.trim().toLowerCase());
+                    
+                    if (!isDuplicate) {
+                        santriMaster.push({
+                            id: Date.now() + index, // Tambah index agar ID selalu unik
+                            nama: nama.trim(),
+                            kelompok: kelompok.trim()
+                        });
+                        jumlahBaru++;
+                    } else {
+                        jumlahLewat++;
+                    }
+                }
+            });
+
+            // Urutkan kembali sesuai abjad
+            santriMaster.sort((a, b) => a.nama.localeCompare(b.nama));
+            
+            // Simpan ke localStorage
+            saveSantriData(santriMaster);
+
+            if(typeof showLoading === 'function') showLoading(false);
+            
+            // Tampilkan pesan sukses
+            let pesan = `${jumlahBaru} Santri berhasil diimport!`;
+            if(jumlahLewat > 0) pesan += ` (${jumlahLewat} dilewati karena nama sudah ada)`;
+            showToast(pesan);
+            
+            // Refresh tabel tampilan
+            renderDaftarSantri();
+
+        } catch (error) {
+            if(typeof showLoading === 'function') showLoading(false);
+            alert("Terjadi kesalahan saat membaca file: " + error.message);
+        } finally {
+            // Reset input file agar bisa digunakan lagi
+            event.target.value = ""; 
+        }
+    };
+
+    reader.readAsArrayBuffer(file);
+}
 </script>
 </body>
 </html>
