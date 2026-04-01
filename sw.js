@@ -1,5 +1,5 @@
 // UBAH ANGKA VERSI INI SETIAP KALI ADA UPDATE FITUR (Misal: v3, v4, v5)
-const CACHE_NAME = 'mutabaah-cache-v3'; 
+const CACHE_NAME = 'mutabaah-cache-v4'; 
 
 const urlsToCache = [
   './',
