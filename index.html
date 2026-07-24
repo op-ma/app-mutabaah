@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Mutabaah Santri</title>
+  
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0f6e4f">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Reem+Kufi:wght@500;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
+  <style>
+    /* ============================================================
+       DESIGN TOKENS — nuansa masjid: zamrud (emerald), emas (gold),
+       krem manuskrip, dihiasi pola geometris Islami yang halus
+    ============================================================ */
+    :root {
+      --emerald-900: #0a2e22;
+      --emerald-800: #0b3d2e;
+      --emerald-700: #0f6e4f;
+      --emerald-600: #14875f;
+      --emerald-100: #e4f0e9;
+      --gold-700: #a9821c;
+      --gold-600: #c9a227;
+      --gold-400: #e8c766;
+      --gold-100: #f7ecc9;
+      --cream: #f7f3e8;
+      --cream-deep: #f0e9d6;
+      --paper: #fffdf8;
+      --ink: #26302b;
+      --ink-soft: #63625a;
+      --line: #e6ddc7;
+      --danger: #a8362f;
+      --shadow-sm: 0 2px 10px rgba(11,61,46,0.08);
+      --shadow-md: 0 6px 20px rgba(11,61,46,0.12);
+      --shadow-gold: 0 4px 16px rgba(169,130,28,0.28);
+    }
+
+    /* CSS RESET & STYLES */
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { margin: 0; padding: 0; min-height: 100vh; font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.5; color: var(--ink); }
+    body {
+      padding: 10px;
+      background-color: var(--cream);
+      background-image:
+        radial-gradient(circle at 0% 0%, rgba(15,110,79,0.05) 0, transparent 45%),
+        radial-gradient(circle at 100% 0%, rgba(201,162,39,0.07) 0, transparent 40%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='84' viewBox='0 0 84 84'%3E%3Cg fill='none' stroke='%230f6e4f' stroke-width='1' opacity='0.06'%3E%3Cpath d='M42 4 L74 24 L74 60 L42 80 L10 60 L10 24 Z'/%3E%3Cpath d='M42 20 L60 32 L60 52 L42 64 L24 52 L24 32 Z'/%3E%3Ccircle cx='42' cy='42' r='6'/%3E%3C/g%3E%3C/svg%3E");
+      background-attachment: fixed;
+    }
+
+    h3 {
+      background: linear-gradient(135deg, var(--emerald-800), var(--emerald-700));
+      color: #fff; padding: 16px 15px; border-radius: 14px; font-size: 17px;
+      text-align: center; margin: 6px 0 22px 0; font-weight: 700;
+      letter-spacing: 0.3px; box-shadow: var(--shadow-md);
+      position: relative; overflow: hidden;
+    }
+    h3::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(232,199,102,0.55), transparent);
+      width: 40%; height: 100%; left: -50%;
+      animation: shimmer 5s ease-in-out infinite;
+    }
+    @keyframes shimmer { 0%,100% { left: -50%; } 50% { left: 110%; } }
+    h3.plain-title::after { content: none; }
+
+    .back-btn { display: inline-flex; align-items: center; gap: 8px; background: #fff; color: var(--emerald-800); border: 1.5px solid var(--line); padding: 11px 18px; border-radius: 10px; font-size: 14px; font-weight: 700; margin-bottom: 15px; cursor: pointer; box-shadow: var(--shadow-sm); }
+    .back-btn:active { transform: scale(0.97); }
+
+    .form-container { width: 100%; background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 18px; box-shadow: var(--shadow-sm); }
+    .form-grid { display: block !important; width: 100%; }
+    .form-column { width: 100%; display: block; margin-bottom: 20px; }
+    .section-title {
+      font-size: 13px; font-weight: 800; color: var(--emerald-700);
+      margin: 22px 0 12px 0; padding-bottom: 9px; letter-spacing: 0.6px;
+      text-transform: uppercase; position: relative;
+      border-bottom: 1px solid var(--line);
+    }
+    .section-title::after {
+      content: ''; position: absolute; left: 0; bottom: -1px; height: 3px; width: 46px;
+      background: linear-gradient(90deg, var(--gold-600), var(--emerald-700)); border-radius: 3px;
+    }
+
+    input, select {
+      width: 100%; height: 52px; padding: 0 16px; margin-bottom: 12px; border-radius: 10px;
+      border: 1.5px solid var(--line); background: var(--paper); font-size: 15.5px; color: var(--ink);
+      -webkit-appearance: none; appearance: none; font-family: inherit; transition: border-color .15s, box-shadow .15s;
+    }
+    input:focus, select:focus { border-color: var(--emerald-700); outline: none; box-shadow: 0 0 0 4px rgba(15,110,79,0.13); }
+    input::placeholder { color: #9a9284; }
+    select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230f6e4f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; background-size: 22px; padding-right: 45px; }
+    input[readonly] { background: var(--cream) !important; color: var(--ink-soft); font-weight: 700; }
+    .input-row { display: flex; gap: 10px; width: 100%; }
+    .input-row > * { flex: 1; }
+    .input-hint { font-size: 12.5px; color: var(--ink-soft); margin: -8px 0 15px 0; font-style: italic; }
+
+    button.btn {
+      width: 100%; height: 54px; border-radius: 12px; border: none;
+      background: linear-gradient(135deg, var(--emerald-700), var(--emerald-800));
+      color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 20px;
+      box-shadow: var(--shadow-gold); letter-spacing: 0.3px; transition: transform .12s, box-shadow .12s;
+    }
+    button.btn:active { transform: translateY(1px) scale(0.99); }
+
+    .menu-page { padding: 6px; }
+    .menu-title { text-align: center; color: var(--emerald-800); font-size: 21px; font-weight: 800; margin: 14px 0 22px; font-family: 'Reem Kufi', 'Plus Jakarta Sans', sans-serif; letter-spacing: 0.3px; }
+    .menu-card { background: var(--paper); border: 1px solid var(--line); border-radius: 18px; padding: 20px; margin-bottom: 18px; box-shadow: var(--shadow-md); }
+    .menu-btn {
+      width: 100%; height: 58px; border-radius: 12px; border: none; font-size: 15.5px; font-weight: 700;
+      cursor: pointer; margin-bottom: 12px; display: flex; align-items: center; justify-content: center;
+      gap: 12px; color: #fff; letter-spacing: 0.2px; box-shadow: 0 4px 12px rgba(0,0,0,0.12); transition: transform .12s;
+    }
+    .menu-btn:active, .btn:active { transform: scale(0.98); }
+    .menu-btn-primary { background: linear-gradient(135deg, var(--emerald-700), var(--emerald-800)); }
+    .menu-btn-secondary { background: linear-gradient(135deg, #746a58, #544d42); }
+
+    .stats-card { background: linear-gradient(135deg, var(--emerald-700), var(--emerald-900)); color: #fff; border-radius: 14px; padding: 20px; text-align: center; box-shadow: var(--shadow-md); position: relative; overflow: hidden; }
+    .stats-card::before { content: ''; position: absolute; top: -30px; right: -30px; width: 90px; height: 90px; border: 10px solid rgba(232,199,102,0.18); border-radius: 50%; }
+    .stats-number { font-size: 30px; font-weight: 800; margin-bottom: 4px; color: var(--gold-400); }
+    .stats-label { font-size: 12px; opacity: 0.9; letter-spacing: 0.3px; }
+
+    #dashboardPage { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center; }
+    #dashboardPage img { width: 180px; margin-bottom: 20px; }
+    #dashboardPage h2 {
+      color: var(--emerald-800); font-size: 25px; margin-bottom: 8px; font-weight: 800;
+      font-family: 'Reem Kufi', 'Plus Jakarta Sans', sans-serif; letter-spacing: 0.4px;
+    }
+    #dashboardPage > div { max-width: 420px; }
+    #dashboardPage > div > p { color: var(--ink-soft); font-size: 14px; margin-top: 0; }
+    .dashboard-box {
+      background: var(--paper); border: 1.5px solid var(--gold-100); border-radius: 20px; padding: 30px 25px; margin: 22px 0;
+      box-shadow: var(--shadow-md); position: relative;
+    }
+    .dashboard-box::before, .dashboard-box::after {
+      content: ''; position: absolute; width: 26px; height: 26px; border: 2.5px solid var(--gold-600); opacity: 0.55;
+    }
+    .dashboard-box::before { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+    .dashboard-box::after { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+
+    .filter-container { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 15px; box-shadow: var(--shadow-sm); }
+    .filter-grid { display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; }
+    .filter-group label { display: block; font-size: 12px; font-weight: 700; color: var(--ink-soft); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.4px; }
+    .filter-actions { display: flex; flex-direction: column; gap: 10px; }
+    .btn-filter, .btn-reset, .btn-download, .btn-pdf { width: 100%; height: 48px; border: none; border-radius: 10px; font-size: 14.5px; font-weight: 700; cursor: pointer; color: #fff; letter-spacing: 0.2px; box-shadow: 0 3px 10px rgba(0,0,0,0.12); }
+    .btn-filter { background: linear-gradient(135deg, var(--emerald-700), var(--emerald-800)); }
+    .btn-reset { background: #786f61; }
+    .btn-download { background: linear-gradient(135deg, #1f8a5f, #14875f); }
+    .btn-pdf { background: linear-gradient(135deg, var(--danger), #7a2822); }
+
+    .stats-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
+    .stats-container .stats-card { padding: 15px 5px; }
+    .stats-container .stats-number { font-size: 20px; }
+    .stats-container .stats-label { font-size: 9.5px; }
+
+    .table-wrapper { overflow-x: auto; border-radius: 14px; background: var(--paper); border: 1px solid var(--line); }
+    table { display: none; }
+    #mobileList { display: block; padding: 4px; }
+    .data-card { background: var(--paper); border: 1px solid var(--line); border-left: 4px solid var(--gold-600); border-radius: 14px; padding: 16px; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px dashed var(--line); }
+    .nama-santri { font-weight: 700; font-size: 16.5px; color: var(--emerald-800); }
+    .nilai-badge { background: linear-gradient(135deg, var(--emerald-700), var(--emerald-600)); color: #fff; padding: 6px 13px; border-radius: 20px; font-weight: 700; font-size: 13.5px; box-shadow: 0 2px 6px rgba(15,110,79,0.3); }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    .info-item { display: flex; flex-direction: column; }
+    .info-label { font-size: 10.5px; color: #a49c8c; text-transform: uppercase; letter-spacing: 0.3px; }
+    .info-value { font-size: 13.5px; color: var(--ink); font-weight: 700; }
+    .ayat-section { background: var(--cream); border: 1px dashed var(--gold-600); padding: 12px; border-radius: 10px; margin: 12px 0; text-align: center; }
+    .ayat-title { font-size: 11.5px; color: var(--gold-700); font-weight: 800; letter-spacing: 0.3px; }
+    .ayat-value { font-size: 14.5px; color: var(--ink); font-weight: 700; }
+    .card-actions { display: flex; gap: 10px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+    .btn-action { flex: 1; height: 42px; border: none; border-radius: 8px; font-size: 13.5px; font-weight: 700; cursor: pointer; }
+    .btn-edit { background: var(--gold-100); color: var(--gold-700); }
+    .btn-delete { background: #f7dedb; color: var(--danger); }
+
+    #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--emerald-800); color: #fff; padding: 15px 26px; border-radius: 30px; font-size: 14.5px; font-weight: 600; z-index: 9999; display: none; box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+    #loading { position: fixed; inset: 0; background: rgba(247,243,232,0.95); display: none; align-items: center; justify-content: center; z-index: 9998; }
+    .loading-content { background: var(--paper); border: 1px solid var(--line); padding: 36px; border-radius: 18px; box-shadow: var(--shadow-md); text-align: center; font-size: 17px; color: var(--emerald-700); font-weight: 700; }
+
+    /* PDF MODAL */
+    .pdf-modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(10,46,34,0.65); overflow: auto; }
+    .pdf-modal-content { background: var(--paper); margin: 8% auto; padding: 20px; border-radius: 16px; width: 95%; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.35); }
+    .pdf-header { text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--emerald-700); }
+    .pdf-title { font-size: 17px; font-weight: 800; color: var(--emerald-800); }
+    .pdf-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    .pdf-table th { background: var(--emerald-700); color: #fff; padding: 8px; border: 1px solid var(--emerald-700); }
+    .pdf-table td { padding: 6px; border: 1px solid var(--line); text-align: center; }
+    .pdf-actions { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
+    .pdf-close, .pdf-download { padding: 12px 24px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; color: #fff; }
+    .pdf-close { background: #786f61; } .pdf-download { background: linear-gradient(135deg, var(--danger), #7a2822); }
+
+    @media screen and (min-width: 769px) {
+      body { padding: 24px; }
+      .form-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 30px; }
+      table { display: table; width: 100%; min-width: 900px; border-collapse: collapse; font-size: 13px; }
+      th, td { padding: 12px; text-align: center; border-bottom: 1px solid var(--line); }
+      th { background: var(--emerald-700); color: #fff; font-weight: 700; letter-spacing: 0.3px; }
+      tbody tr:hover { background: var(--emerald-100); }
+      #mobileList { display: none !important; }
+      .filter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
+      .filter-actions { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+      .btn-filter, .btn-reset, .btn-download, .btn-pdf { width: auto; padding: 0 24px; }
+      .menu-card { max-width: 520px; margin-left: auto; margin-right: auto; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="dashboardPage">
+  <div>
+    <div style="width: 74px; height: 74px; margin: 0 auto 18px; border-radius: 50%; background: linear-gradient(135deg, var(--emerald-700), var(--emerald-800)); display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-gold); border: 3px solid var(--gold-400);">
+      <i class="fa-solid fa-book-quran" style="font-size: 30px; color: var(--gold-400);"></i>
+    </div>
+    <h2>MUTABAAH DIGITAL PRO</h2>
+    <p>Aplikasi Manajemen Setoran Hafalan Al-Qur'an Digital</p>
+    <div class="dashboard-box">
+      <h3 class="plain-title" style="background: none; color: var(--emerald-700); margin: 0 0 10px 0; padding: 0; font-size: 18px; box-shadow: none; letter-spacing: 0.2px;">Dashboard Utama</h3>
+      <p style="color: var(--ink-soft); font-size: 13.5px; line-height: 1.7; margin-bottom: 22px;">Kelola data hafalan santri dengan mudah, cepat, dan aman secara offline.</p>
+      <button class="btn" onclick="bukaMenu()" style="margin-top: 0; height: 52px; font-size: 16px;"><i class="fa-solid fa-arrow-right-to-bracket" style="margin-left: -4px;"></i> BUKA APLIKASI</button>
+    </div>
+    <div style="font-size: 12px; color: var(--ink-soft); letter-spacing: 0.3px;">© 2025 Mutabaah Digital Pro</div>
+  </div>
+</div>
+
+<div id="menuPage" style="display: none;" class="menu-page">
+  <button class="back-btn" onclick="kembaliKeDashboard()"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
+  <div class="menu-title"><i class="fa-solid fa-book-quran" style="color: var(--gold-600); font-size: 34px; margin-bottom: 10px; display: block;"></i> Pilih Menu</div>
+  <div class="menu-card">
+    <button class="menu-btn menu-btn-primary" onclick="bukaInputForm()"><i class="fa-solid fa-pen-to-square" style="font-size: 22px;"></i><span>INPUT SETORAN BARU</span></button>
+    <button class="menu-btn menu-btn-secondary" onclick="bukaRekap()"><i class="fa-solid fa-table-list" style="font-size: 22px;"></i><span>LIHAT REKAP DATA</span></button>
+    <button class="btn" onclick="navigasiKe('absensi')" style="background: linear-gradient(135deg, #b8860b, #96690e); margin-top: 10px; box-shadow: 0 4px 16px rgba(184,134,11,0.3);"><i class="fa-solid fa-user-check"></i> ABSENSI HALQOH</button>
+    <button class="btn" onclick="navigasiKe('santri')" style="background: linear-gradient(135deg, #7a3b6d, #5e2d54); margin-top: 10px; box-shadow: 0 4px 16px rgba(122,59,109,0.3);"><i class="fa-solid fa-users"></i> DATA SANTRI</button>
+  </div>
+  <div class="stats-card">
+    <div class="stats-number" id="totalSetoran">0</div>
+    <div class="stats-label">Total Setoran Tercatat</div>
+  </div>
+</div>
+
+<div id="mainAppPage" style="display: none;">
+  <button class="back-btn" onclick="kembaliKeMenu()"><i class="fa-solid fa-arrow-left"></i> Kembali ke Menu</button>
+  
+  <h3 id="titleSetoran">📘 Input Setoran</h3>
+  <div class="form-container" id="formSetoran">
+    <div class="form-grid">
+      <div class="form-column">
+        <div class="section-title">👤 Identitas Santri</div>
+        
+        <input type="text" id="nama" list="list-nama" placeholder="Ketik atau pilih nama santri" autocomplete="off">
+        <datalist id="list-nama"></datalist>
+        
+        <input type="text" id="kelompok" list="list-kelompok" placeholder="Ketik atau pilih kelas / kelompok" autocomplete="off">
+        <datalist id="list-kelompok"></datalist>
+        
+        <div class="section-title">📅 Waktu & Kategori</div>
+        <input type="date" id="tanggal">
+        <select id="waktu_halqoh">
+          <option value="">- Pilih Waktu Halqoh -</option>
+          <option value="Halqoh Pagi">Halqoh Pagi ☀️</option>
+          <option value="Halqoh Malam">Halqoh Malam 🌙</option>
+        </select>
+        <select id="kategori">
+          <option value="">- Pilih Kategori Setoran -</option>
+          <option value="Hafalan">Hafalan 🆕</option>
+          <option value="Murajaah">Murajaah 🔄</option>
+        </select>
+      </div>
+
+      <div class="form-column">
+        <div class="section-title">📖 Detail Progres</div>
+        <div class="input-row">
+          <select id="juz"><option value="">Juz</option></select>
+          <select id="surat"><option value="">- Surat Awal -</option></select>
+        </div>
+        <div class="input-row">
+          <select id="juz2"><option value="">Juz</option></select>
+          <select id="surat2"><option value="">- Surat Akhir -</option></select>
+        </div>
+        <div class="section-title">🔢 Range Ayat</div>
+        <input type="text" id="dari_ayat" placeholder="Contoh: 1-7">
+        <div class="input-hint">Format: ayat-ayat (contoh: 1-7)</div>
+        <input type="text" id="sampai_ayat" placeholder="Contoh: 1-20">
+        <div class="input-hint">Format: ayat-ayat (contoh: 1-20)</div>
+        <input type="number" id="baris" placeholder="Jumlah Baris" min="1">
+        <input type="number" id="kesalahan" placeholder="Jumlah Kesalahan" min="0">
+        <input type="text" id="nilai" readonly placeholder="Nilai otomatis (100 - kesalahan)">
+      </div>
+    </div>
+    <button class="btn" id="btnSimpanSetoran" onclick="simpanData()"><i class="fa-solid fa-floppy-disk"></i> SIMPAN DATA</button>
+  </div>
+  
+  <div id="sectionSantri" style="display: none;">
+    <h3><i class="fa-solid fa-users"></i> Master Data Santri</h3>
+    
+    <div style="background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px;">
+      <label style="font-weight: bold; font-size: 14px; color: #333;">Tambah Santri Baru</label>
+      <div style="display: flex; gap: 10px; margin-top: 5px; flex-wrap: wrap;">
+        <input type="text" id="inputNamaSantri" placeholder="Nama lengkap santri..." style="flex: 2; min-width: 150px; margin-bottom: 0;">
+        <input type="text" id="inputKelompokSantri" placeholder="Kelas / Kelompok..." style="flex: 1; min-width: 120px; margin-bottom: 0;">
+        <button onclick="tambahSantri()" style="background: #7a3b6d; color: white; border: none; padding: 0 20px; border-radius: 10px; cursor: pointer; font-weight: bold; height: 54px;">Tambah</button>
+      </div>
+    </div>
+
+    <div style="overflow-x: auto; background: white; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); padding: 10px;">
+      <table style="width: 100%; border-collapse: collapse; text-align: left; display: table;">
+        <thead>
+          <tr style="background: #7a3b6d; color: white;">
+            <th style="padding: 12px; border-bottom: 1px solid #ddd; width: 50px;">No</th>
+            <th style="padding: 12px; border-bottom: 1px solid #ddd; text-align: left;">Nama Santri</th>
+            <th style="padding: 12px; border-bottom: 1px solid #ddd; text-align: left;">Kelas / Kelompok</th>
+            <th style="padding: 12px; border-bottom: 1px solid #ddd; text-align: center; width: 80px;">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="bodyDaftarSantri"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="sectionAbsensi" style="display: none;">
+    <h3>📋 Kelola Absensi Halqoh</h3>
+    
+    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+      <button class="btn" id="btnTabInputAbsen" style="flex: 1; background: #0f6e4f; margin-top:0;" onclick="switchTabAbsensi('input')">Form Absen</button>
+      <button class="btn" id="btnTabRekapAbsen" style="flex: 1; background: #8a8275; margin-top:0;" onclick="switchTabAbsensi('rekap')">Data Rekap</button>
+    </div>
+
+    <div id="areaInputAbsensi">
+      <div class="form-container" style="background:#fff; padding:15px; border-radius:14px; margin-bottom:15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <input type="date" id="tanggalAbsen" style="flex: 1; min-width: 150px; margin-bottom: 0;">
+          <select id="waktuAbsen" style="flex: 1; min-width: 150px; margin-bottom: 0;">
+            <option value="Halqoh Pagi">Halqoh Pagi</option>
+            <option value="Halqoh Malam">Halqoh Malam</option>
+          </select>
+          <button onclick="generateFormAbsen()" style="background:#0e7c86; color:white; border:none; border-radius:10px; padding:0 20px; font-weight:bold; height: 54px;">Muat Santri</button>
+        </div>
+      </div>
+
+      <div class="table-container" id="containerTabelAbsen" style="display:none; background:#fff; padding:10px; border-radius:14px; overflow-x: auto;">
+        <table id="tblInputAbsen" style="display: table; width: 100%;">
+          <thead>
+            <tr>
+              <th style="text-align:left; background: #0e7c86;">Nama Santri</th>
+              <th width="40" style="background: #2e8b57;">H</th>
+              <th width="40" style="background: #c98f1f;">S</th>
+              <th width="40" style="background: #0e7c86;">I</th>
+              <th width="40" style="background: #a8362f;">A</th>
+            </tr>
+          </thead>
+          <tbody id="bodyInputAbsen"></tbody>
+        </table>
+        <button class="btn" onclick="simpanDataAbsensi()" style="margin-top:15px; background:#0f6e4f;">
+          <i class="fa-solid fa-floppy-disk"></i> Simpan Absensi
+        </button>
+      </div>
+    </div>
+
+    <div id="areaRekapAbsensi" style="display: none;">
+<div style="background:#fff; padding:15px; border-radius:14px; margin-bottom:15px; display:flex; gap:10px; flex-wrap: wrap;">
+  <input type="month" id="filterBulanAbsen" onchange="renderRekapAbsensi()" style="flex:1; min-width: 150px; height: 54px; border-radius:10px; border:2px solid #e0e0e0; padding:0 16px; margin-bottom: 0;">
+  <button onclick="exportAbsenExcel()" style="background:#2e8b57; color:#fff; border:none; border-radius:10px; padding:0 15px; height: 54px; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-file-excel"></i> Excel</button>
+  <button onclick="exportAbsenPDF()" style="background:#a8362f; color:#fff; border:none; border-radius:10px; padding:0 15px; height: 54px; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-file-pdf"></i> PDF</button>
+</div>
+       <div class="table-container" style="overflow-x: auto; background:#fff; border-radius:14px;">
+          <table id="tblRekapAbsensi" style="display: table; width: 100%;">
+            <thead>
+              <tr>
+                <th style="background: #0e7c86;">Tanggal</th>
+                <th style="background: #0e7c86;">Waktu</th>
+                <th style="background: #0e7c86;">Nama</th>
+                <th style="background: #0e7c86;">Status</th>
+                <th style="background: #0e7c86;">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="bodyRekapAbsensi"></tbody>
+          </table>
+       </div>
+    </div>
+  </div>
+</div>
+
+<div id="rekapPage" style="display: none;">
+  <button class="back-btn" onclick="kembaliKeMenu()"><i class="fa-solid fa-arrow-left"></i> Kembali ke Menu</button>
+  <h3>📊 Data Setoran</h3>
+  <div class="filter-container">
+    <div style="font-size: 16px; font-weight: 700; color: #0f6e4f; margin-bottom: 15px; text-align: center;"><i class="fa-solid fa-filter"></i> Filter Data</div>
+    <div class="filter-grid">
+      <div class="filter-group">
+        <label>Nama Santri</label>
+        <select id="filterNama"><option value="">Semua Santri</option></select>
+      </div>
+      <div class="filter-group">
+        <label>Kategori</label>
+        <select id="filterKategori"><option value="">Semua Kategori</option><option value="Hafalan">Hafalan</option><option value="Murajaah">Murajaah</option></select>
+      </div>
+      <div class="filter-group">
+        <label>Waktu Halqoh</label>
+        <select id="filterWaktu"><option value="">Semua Waktu</option><option value="Halqoh Pagi">Halqoh Pagi</option><option value="Halqoh Malam">Halqoh Malam</option></select>
+      </div>
+      <div class="filter-group">
+        <label>Periode</label>
+        <select id="filterPeriode" onchange="updatePeriodeInput()">
+          <option value="">Semua Periode</option><option value="minggu">Per Minggu</option><option value="bulan">Per Bulan</option><option value="custom">Rentang Tanggal</option>
+        </select>
+      </div>
+      <div class="filter-group" id="mingguGroup" style="display: none;"><label>Pilih Minggu</label><input type="week" id="filterMinggu"></div>
+      <div class="filter-group" id="bulanGroup" style="display: none;"><label>Pilih Bulan</label><input type="month" id="filterBulan"></div>
+      <div class="filter-group" id="dariTanggalGroup" style="display: none;"><label>Dari Tanggal</label><input type="date" id="filterDariTanggal"></div>
+      <div class="filter-group" id="sampaiTanggalGroup" style="display: none;"><label>Sampai Tanggal</label><input type="date" id="filterSampaiTanggal"></div>
+    </div>
+    <div class="filter-actions">
+      <button class="btn-filter" onclick="applyFilter()"><i class="fa-solid fa-magnifying-glass"></i> Terapkan Filter</button>
+      <button class="btn-reset" onclick="resetFilter()"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+      <button class="btn-download" onclick="downloadExcel()"><i class="fa-solid fa-file-excel"></i> Excel</button>
+      <button class="btn-pdf" onclick="downloadPDF()"><i class="fa-solid fa-file-pdf"></i> PDF</button>
+      <button class="btn-download" style="background: #c98f1f;" onclick="document.getElementById('fileImport').click()">Import Excel</button>
+      <input type="file" id="fileImport" accept=".xlsx, .xls" style="display:none" onchange="prosesImportExcel(event)">
+    </div>
+  </div>
+  
+  <div class="stats-container">
+    <div class="stats-card"><div class="stats-number" id="statTotal">0</div><div class="stats-label">Total Data</div></div>
+    <div class="stats-card" style="background: linear-gradient(135deg, #2a8f8f, #1f6e6e);"><div class="stats-number" id="statRataNilai">0</div><div class="stats-label">Rata Nilai</div></div>
+    <div class="stats-card" style="background: linear-gradient(135deg, #d4af37, #b8952c); color: #000;"><div class="stats-number" id="statTotalHal">0</div><div class="stats-label">Total Hal</div></div>
+  </div>
+
+  <div class="table-wrapper">
+    <table id="tbl">
+      <thead>
+        <tr><th>Tanggal</th><th>Nama</th><th>Waktu</th><th>Juz A</th><th>Surat A</th><th>Juz Ak</th><th>Surat Ak</th><th>Kat</th><th>Dari Ayat</th><th>Sampai Ayat</th><th>Hal</th><th>Nilai</th><th>Aksi</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div id="mobileList"></div>
+  </div>
+</div>
+
+<div id="pdfModal" class="pdf-modal">
+  <div class="pdf-modal-content">
+    <div class="pdf-header">
+      <div class="pdf-title">📋 REKAPITULASI SETORAN HAFALAN</div>
+      <div style="font-size: 14px; color: #666;">MUTABAAH DIGITAL PRO</div>
+      <div style="font-size: 12px; color: #0f6e4f; margin-top: 5px; font-weight: 600;" id="pdfFilterInfo"></div>
+    </div>
+    <div id="pdfTableContainer"></div>
+    <div style="text-align: center; font-size: 12px; color: #888; margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
+      <p>Dicetak pada: <span id="pdfDate"></span></p>
+      <p>Total Data: <span id="pdfTotalData">0</span> | Rata-rata Nilai: <span id="pdfRataNilai">0</span> | Total Halaman: <span id="pdfTotalHal">0</span></p>
+    </div>
+    <div class="pdf-actions">
+      <button class="pdf-close" onclick="closePDFModal()"><i class="fa-solid fa-xmark"></i> Tutup</button>
+      <button class="pdf-download" onclick="generatePDF()"><i class="fa-solid fa-download"></i> Download PDF</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<div id="loading">
+  <div class="loading-content"><div style="font-size: 40px; margin-bottom: 15px;">⏳</div>Memuat data...</div>
+</div>
+
+<script>
+// --- REGISTRASI PWA SERVICE WORKER ---
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').then(reg => console.log('SW terdaftar')).catch(err => console.log('SW error:', err));
+  });
+}
+
+// --- DATA KONSTANTA ---
+const DATA_SURAT = {
+    1: ['Al-Fatihah', 'Al-Baqarah'], 
+    2: ['Al-Baqarah'], 
+    3: ['Al-Baqarah', 'Ali Imran'], 
+    4: ['Ali Imran', 'An-Nisa'], 
+    5: ['An-Nisa'], 
+    6: ['An-Nisa', 'Al-Ma\'idah'], 
+    7: ['Al-Ma\'idah', 'Al-An\'am'], 
+    8: ['Al-An\'am', 'Al-A\'raf'], 
+    9: ['Al-A\'raf', 'Al-Anfal'], 
+    10: ['Al-Anfal', 'At-Taubah'], 
+    11: ['At-Taubah', 'Yunus', 'Hud'], 
+    12: ['Hud', 'Yusuf'], 
+    13: ['Yusuf', 'Ar-Ra\'d', 'Ibrahim'], 
+    14: ['Al-Hijr', 'An-Nahl'], 
+    15: ['Al-Isra', 'Al-Kahf'], 
+    16: ['Al-Kahf', 'Maryam', 'Ta-Ha'], 
+    17: ['Al-Anbiya', 'Al-Hajj'], 
+    18: ['Al-Mu\'minun', 'An-Nur', 'Al-Furqan'], 
+    19: ['Al-Furqan', 'Ash-Shu\'ara', 'An-Naml'], 
+    20: ['An-Naml', 'Al-Qasas', 'Al-Ankabut'], 
+    21: ['Al-Ankabut', 'Ar-Rum', 'Luqman', 'As-Sajdah', 'Al Ahzab'], 
+    22: ['Al-Ahzab', 'Saba', 'Fatir', 'Ya-Sin'], 
+    23: ['Ya-Sin', 'As-Saffat', 'Sad', 'Az-Zumar'], 
+    24: ['Az-Zumar', 'Ghafir', 'Fussilat'], 
+    25: ['Fussilat', 'Ash-Shura', 'Az-Zukhruf', 'Ad-Dukhan', 'Al-Jasiyah'], 
+    26: ['Al-Ahqaf', 'Muhammad', 'Al-Fath', 'Al-Hujurat', 'Qaf', 'Az-Zariyat'], 
+    27: ['Az-Zariyat', 'At-Tur', 'An-Najm', 'Al-Qamar', 'Ar-Rahman', 'Al-Waqiah', 'Al-Hadid'], 
+    28: ['Al-Mujadalah', 'Al-Hasyr', 'Al-Mumtahanah', 'As-Saff', 'Al-Jumu\'ah', 'Al-Munafiqun', 'At-Taghabun', 'At-Talaq', 'At-Tahrim'], 
+    29: ['Al-Mulk', 'Al-Qalam', 'Al-Haqqah', 'Al-Ma\'arij', 'Nuh', 'Al-Jinn', 'Al-Muzzammil', 'Al-Muddassir', 'Al-Qiyamah', 'Al-Insan', 'Al-Mursalat'], 
+    30: ['An-Naba\'', '\'Abasa',  'At-Takwir', 'Al-Infitar', 'Al-Mutaffifin', 'Al-Insyiqaq', 'Al-Buruj', 'At-Tariq', 'Al-A`la', 'Al-Ghasiyah', 'Al-Fajr', 'Al-Balad', 'Asy-Syams', 'Al-Lail', 'Ad-Duha', 'Ash-Sharh', 'At-Tin', 'Al-`Alaq', 'Al-Qadr', 'Al-Bayyinah', 'Az-Zalzalah', 'Al-Adiyat', 'Al-Qari\'ah', 'At-Takathur', 'Al-Asr', 'Al-Humazah', 'Al-Fil', 'Quraysh', 'Al-Ma\'un', 'Al-Kautsar', 'Al-Kafirun', 'An-Nasr', 'Al-Masad', 'Al-Ikhlas', 'Al-Falaq', 'An-Nas']
+};
+
+let santriList = [], editRow = null;
+let allData = [], filteredData = [], originalRowIndices = [];
+
+// ==========================================
+// 1. DATABASE LOKAL (Setoran & Master Santri)
+// ==========================================
+function getLocalData() {
+  let d = localStorage.getItem('mutabaah_data');
+  if(!d) {
+    d = [['Tanggal','Nama','Kelompok','Juz Awal','Surat Awal','Juz Akhir','Surat Akhir','Waktu','Kategori','Dari Ayat','Sampai Ayat','Baris','Halaman','Kesalahan','Nilai']];
+    localStorage.setItem('mutabaah_data', JSON.stringify(d));
+    return d;
+  }
+  return JSON.parse(d);
+}
+function saveLocalData(dataArr) {
+  localStorage.setItem('mutabaah_data', JSON.stringify(dataArr));
+}
+
+function getSantriData() {
+    return JSON.parse(localStorage.getItem('mutabaah_master_santri') || '[]');
+}
+function saveSantriData(data) {
+    localStorage.setItem('mutabaah_master_santri', JSON.stringify(data));
+    loadDatalistSantri(); // Auto-update dropdown
+}
+
+window.onload = () => {
+  const opsi = Array.from({length:30},(_,i)=>`<option value="${i+1}">Juz ${i+1}</option>`).join('');
+  document.getElementById('juz').innerHTML += opsi;
+  document.getElementById('juz2').innerHTML += opsi;
+  allData = getLocalData();
+  ekstrakSantri();
+};
+
+function ekstrakSantri() {
+  let unik = new Set();
+  santriList = [];
+  for(let i=1; i<allData.length; i++) {
+    let nama = allData[i][1];
+    let kelompok = allData[i][2];
+    if(nama && !unik.has(nama)) {
+      unik.add(nama);
+      santriList.push({ nama: nama, kelompok: kelompok });
+    }
+  }
+}
+
+// Event otomatis isi kelompok jika nama sudah ada di master atau riwayat
+document.getElementById('nama').addEventListener('input', function() {
+  const masterSantri = getSantriData();
+  let selected = masterSantri.find(s => s.nama === this.value);
+  
+  if(!selected) {
+     selected = santriList.find(s => s.nama === this.value);
+  }
+  
+  if(selected && selected.kelompok) {
+    document.getElementById('kelompok').value = selected.kelompok;
+  }
+});
+
+function updateSuratLokal(juzId, suratId) {
+  const juzVal = document.getElementById(juzId).value;
+  const daftar = DATA_SURAT[juzVal] || [];
+  document.getElementById(suratId).innerHTML = '<option value="">- Pilih Surat -</option>' + daftar.map(s => `<option value="${s}">${s}</option>`).join('');
+}
+document.getElementById('juz').onchange = () => updateSuratLokal('juz', 'surat');
+document.getElementById('juz2').onchange = () => updateSuratLokal('juz2', 'surat2');
+
+// ==========================================
+// 2. NAVIGASI MENU
+// ==========================================
+function bukaMenu() {
+  document.getElementById('dashboardPage').style.display = 'none';
+  document.getElementById('menuPage').style.display = 'block';
+  loadTotalSetoran();
+}
+
+function kembaliKeDashboard() {
+  ['menuPage','rekapPage','mainAppPage'].forEach(id => document.getElementById(id).style.display = 'none');
+  document.getElementById('dashboardPage').style.display = 'flex';
+}
+
+function bukaInputForm() {
+  document.getElementById('menuPage').style.display = 'none';
+  document.getElementById('mainAppPage').style.display = 'block';
+  
+  document.getElementById('titleSetoran').style.display = 'block';
+  document.getElementById('formSetoran').style.display = 'block';
+  document.getElementById('btnSimpanSetoran').style.display = 'block';
+  document.getElementById('sectionAbsensi').style.display = 'none';
+  document.getElementById('sectionSantri').style.display = 'none';
+
+  loadDatalistSantri();
+  document.getElementById('tanggal').valueAsDate = new Date();
+}
+
+function navigasiKe(page) {
+    document.getElementById('menuPage').style.display = 'none';
+    document.getElementById('mainAppPage').style.display = 'block';
+    
+    document.getElementById('titleSetoran').style.display = 'none';
+    document.getElementById('formSetoran').style.display = 'none';
+    document.getElementById('btnSimpanSetoran').style.display = 'none';
+    
+    if (page === 'absensi') {
+        document.getElementById('sectionSantri').style.display = 'none';
+        document.getElementById('sectionAbsensi').style.display = 'block';
+        document.getElementById('tanggalAbsen').valueAsDate = new Date();
+    } else if (page === 'santri') {
+        document.getElementById('sectionAbsensi').style.display = 'none';
+        document.getElementById('sectionSantri').style.display = 'block';
+        renderDaftarSantri();
+    }
+}
+
+function kembaliKeMenu() {
+  document.getElementById('mainAppPage').style.display = 'none';
+  document.getElementById('rekapPage').style.display = 'none';
+  document.getElementById('menuPage').style.display = 'block';
+  resetForm();
+  editRow = null;
+  loadTotalSetoran();
+}
+
+function bukaRekap() {
+  document.getElementById('menuPage').style.display = 'none';
+  document.getElementById('rekapPage').style.display = 'block';
+  loadSantriForFilter();
+  loadTableWithFilter();
+}
+
+function loadTotalSetoran() {
+  document.getElementById('totalSetoran').innerText = Math.max(0, allData.length - 1);
+}
+
+// Datalist di Form Setoran: Menggabungkan Master Data & History Setoran
+function loadDatalistSantri() {
+  const santriMaster = getSantriData();
+  ekstrakSantri(); // history setoran
+
+  let listNama = [...santriMaster.map(s => s.nama)];
+  document.getElementById('list-nama').innerHTML = listNama.map(nama => `<option value="${nama}">`).join('');
+  
+  // Menggabungkan history kelas dan kelas di master data
+  let unikKelMaster = santriMaster.map(s => s.kelompok).filter(Boolean);
+  let unikKelHistory = santriList.map(s => s.kelompok).filter(Boolean);
+  let unikKel = [...new Set([...unikKelMaster, ...unikKelHistory])];
+  
+  document.getElementById('list-kelompok').innerHTML = unikKel.map(k => `<option value="${k}">`).join('');
+}
+
+function loadSantriForFilter(){
+  ekstrakSantri();
+  document.getElementById('filterNama').innerHTML = '<option value="">Semua Santri</option>' + santriList.map(s => `<option value="${s.nama}">${s.nama}</option>`).join('');
+}
+
+// ==========================================
+// 3. MASTER DATA SANTRI LOGIC
+// ==========================================
+function tambahSantri() {
+    const inputNama = document.getElementById('inputNamaSantri');
+    const inputKelompok = document.getElementById('inputKelompokSantri');
+    
+    const nama = inputNama.value.trim();
+    const kelompok = inputKelompok.value.trim();
+    
+    if(!nama) return alert('Nama santri tidak boleh kosong!');
+    
+    let santri = getSantriData();
+    if(santri.some(s => s.nama.toLowerCase() === nama.toLowerCase())) {
+        return alert('Nama santri sudah terdaftar di Master Data!');
+    }
+    
+    santri.push({ id: Date.now(), nama: nama, kelompok: kelompok });
+    santri.sort((a, b) => a.nama.localeCompare(b.nama));
+    saveSantriData(santri);
+    
+    inputNama.value = '';
+    inputKelompok.value = '';
+    renderDaftarSantri();
+    showToast('Santri berhasil ditambahkan!');
+}
+
+function renderDaftarSantri() {
+    const santri = getSantriData();
+    const tbody = document.getElementById('bodyDaftarSantri');
+    tbody.innerHTML = '';
+    
+    if(santri.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:15px;">Belum ada master data santri</td></tr>';
+        return;
+    }
+    
+    santri.forEach((s, index) => {
+        tbody.innerHTML += `
+            <tr>
+                <td style="padding: 10px; border-bottom: 1px solid #eee;">${index + 1}</td>
+                <td style="padding: 10px; border-bottom: 1px solid #eee; font-weight:bold; text-align: left;">${s.nama}</td>
+                <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: left;">${s.kelompok || '-'}</td>
+                <td style="padding: 10px; border-bottom: 1px solid #eee; text-align:center;">
+                    <button onclick="hapusSantri(${s.id})" style="background:#a8362f; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+function hapusSantri(id) {
+    if(!confirm('Yakin ingin menghapus santri ini dari Master Data?')) return;
+    let santri = getSantriData();
+    santri = santri.filter(s => s.id !== id);
+    saveSantriData(santri);
+    renderDaftarSantri();
+    showToast('Data Santri dihapus!');
+}
+
+// ==========================================
+// 4. KELOLA ABSENSI HALQOH 
+// ==========================================
+function switchTabAbsensi(tab) {
+    if (tab === 'input') {
+        document.getElementById('areaInputAbsensi').style.display = 'block';
+        document.getElementById('areaRekapAbsensi').style.display = 'none';
+        document.getElementById('btnTabInputAbsen').style.background = '#0f6e4f';
+        document.getElementById('btnTabRekapAbsen').style.background = '#8a8275';
+    } else {
+        document.getElementById('areaInputAbsensi').style.display = 'none';
+        document.getElementById('areaRekapAbsensi').style.display = 'block';
+        document.getElementById('btnTabInputAbsen').style.background = '#8a8275';
+        document.getElementById('btnTabRekapAbsen').style.background = '#0f6e4f';
+        
+        if(!document.getElementById('filterBulanAbsen').value) {
+            let today = new Date();
+            let month = String(today.getMonth() + 1).padStart(2, '0');
+            document.getElementById('filterBulanAbsen').value = `${today.getFullYear()}-${month}`;
+        }
+        renderRekapAbsensi();
+    }
+}
+
+function getAbsensiData() {
+    return JSON.parse(localStorage.getItem('mutabaah_absensi') || '[]');
+}
+
+function saveAbsensiData(data) {
+    localStorage.setItem('mutabaah_absensi', JSON.stringify(data));
+}
+
+function generateFormAbsen() {
+    const tanggal = document.getElementById('tanggalAbsen').value;
+    const waktu = document.getElementById('waktuAbsen').value;
+    
+    if(!tanggal || !waktu) return alert('Pilih tanggal dan waktu halqoh terlebih dahulu!');
+    
+    const santriMaster = getSantriData();
+    if(santriMaster.length === 0) {
+        return alert('Data santri kosong! Silakan tambah data di menu DATA SANTRI terlebih dahulu.');
+    }
+    
+    const absenData = getAbsensiData();
+    const existingAbsen = absenData.filter(a => a.tanggal === tanggal && a.waktu === waktu);
+    
+    const tbody = document.getElementById('bodyInputAbsen');
+    tbody.innerHTML = '';
+    
+    santriMaster.forEach((s, index) => {
+        let statusDefault = 'H'; 
+        let existing = existingAbsen.find(a => a.nama === s.nama);
+        if(existing) statusDefault = existing.status;
+        
+        tbody.innerHTML += `
+            <tr>
+                <td style="text-align:left; font-weight:600; font-size:14px; border-bottom: 1px solid #eee; padding: 10px 5px;">${s.nama}</td>
+                <td style="border-bottom: 1px solid #eee; text-align:center;"><input type="radio" name="absen_${index}" value="H" ${statusDefault === 'H' ? 'checked' : ''} style="width:20px; height:20px; accent-color:#2e8b57;"></td>
+                <td style="border-bottom: 1px solid #eee; text-align:center;"><input type="radio" name="absen_${index}" value="S" ${statusDefault === 'S' ? 'checked' : ''} style="width:20px; height:20px; accent-color:#c98f1f;"></td>
+                <td style="border-bottom: 1px solid #eee; text-align:center;"><input type="radio" name="absen_${index}" value="I" ${statusDefault === 'I' ? 'checked' : ''} style="width:20px; height:20px; accent-color:#0e7c86;"></td>
+                <td style="border-bottom: 1px solid #eee; text-align:center;"><input type="radio" name="absen_${index}" value="A" ${statusDefault === 'A' ? 'checked' : ''} style="width:20px; height:20px; accent-color:#a8362f;"></td>
+            </tr>
+        `;
+    });
+    
+    document.getElementById('containerTabelAbsen').style.display = 'block';
+}
+
+function simpanDataAbsensi() {
+    const tanggal = document.getElementById('tanggalAbsen').value;
+    const waktu = document.getElementById('waktuAbsen').value;
+    
+    if(!tanggal || !waktu) return alert('Tanggal dan Waktu tidak valid!');
+    
+    const tbody = document.getElementById('bodyInputAbsen');
+    const rows = tbody.querySelectorAll('tr');
+    
+    let absenData = getAbsensiData();
+    absenData = absenData.filter(a => !(a.tanggal === tanggal && a.waktu === waktu));
+    
+    let jumlahDisimpan = 0;
+    rows.forEach((row, index) => {
+        const nama = row.querySelector('td').innerText;
+        const radios = row.querySelectorAll(`input[name="absen_${index}"]`);
+        let status = 'H';
+        radios.forEach(r => { if(r.checked) status = r.value; });
+        
+        absenData.push({
+            id: new Date().getTime() + index,
+            tanggal: tanggal,
+            waktu: waktu,
+            nama: nama,
+            status: status
+        });
+        jumlahDisimpan++;
+    });
+    
+    saveAbsensiData(absenData);
+    showToast(`Absensi ${jumlahDisimpan} santri berhasil disimpan!`);
+}
+
+function renderRekapAbsensi() {
+    const filterBulan = document.getElementById('filterBulanAbsen').value;
+    const absenData = getAbsensiData();
+    const tbody = document.getElementById('bodyRekapAbsensi');
+    tbody.innerHTML = '';
+    
+    let filtered = filterBulan ? absenData.filter(a => a.tanggal.startsWith(filterBulan)) : absenData;
+    filtered.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+    
+    if(filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px;">Tidak ada data absensi</td></tr>';
+        return;
+    }
+    
+    filtered.forEach(data => {
+        let statusBadge = '';
+        if(data.status === 'H') statusBadge = '<span style="background:#2e8b57; color:#fff; padding:4px 10px; border-radius:12px; font-size:12px; font-weight:bold;">Hadir</span>';
+        else if(data.status === 'S') statusBadge = '<span style="background:#c98f1f; color:#fff; padding:4px 10px; border-radius:12px; font-size:12px; font-weight:bold;">Sakit</span>';
+        else if(data.status === 'I') statusBadge = '<span style="background:#0e7c86; color:#fff; padding:4px 10px; border-radius:12px; font-size:12px; font-weight:bold;">Izin</span>';
+        else statusBadge = '<span style="background:#a8362f; color:#fff; padding:4px 10px; border-radius:12px; font-size:12px; font-weight:bold;">Alpa</span>';
+        
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td style="padding:10px; border-bottom:1px solid #eee;">${data.tanggal}</td>
+            <td style="padding:10px; border-bottom:1px solid #eee;">${data.waktu.replace('Halqoh ', '')}</td>
+            <td style="padding:10px; border-bottom:1px solid #eee; text-align:left; font-weight:bold;">${data.nama}</td>
+            <td style="padding:10px; border-bottom:1px solid #eee;">${statusBadge}</td>
+            <td style="padding:10px; border-bottom:1px solid #eee;">
+                <button onclick="hapusAbsensi(${data.id})" style="background:#a8362f; color:#fff; border:none; border-radius:6px; padding:6px 12px; cursor:pointer;">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+function hapusAbsensi(id) {
+    if(!confirm('Anda yakin ingin menghapus data absensi ini?')) return;
+    let absenData = getAbsensiData();
+    absenData = absenData.filter(a => a.id !== id);
+    saveAbsensiData(absenData);
+    renderRekapAbsensi();
+    showToast('Data absensi dihapus!');
+}
+
+/* ==========================================
+ * FUNGSI INPUT SETORAN, FILTER, EXCEL, PDF (ASLI)
+ * ========================================== */
+document.getElementById('kesalahan').oninput = () => {
+  const k = parseInt(document.getElementById('kesalahan').value) || 0;
+  document.getElementById('nilai').value = Math.max(0, 100 - k);
+};
+function hitungHalaman(baris) {
+  const b = Number(baris) || 0;
+  return Math.round((b / 15) * 10) / 10;
+}
+
+function simpanData() {
+  const data = {
+    tanggal: document.getElementById('tanggal').value,
+    nama: document.getElementById('nama').value.trim(),
+    kelompok: document.getElementById('kelompok').value.trim(),
+    juz: document.getElementById('juz').value,
+    surat: document.getElementById('surat').value,
+    juz2: document.getElementById('juz2').value,
+    surat2: document.getElementById('surat2').value,
+    waktu: document.getElementById('waktu_halqoh').value,
+    kategori: document.getElementById('kategori').value,
+    dari_ayat: document.getElementById('dari_ayat').value,
+    sampai_ayat: document.getElementById('sampai_ayat').value,
+    baris: document.getElementById('baris').value,
+    kesalahan: document.getElementById('kesalahan').value
+  };
+
+  if(!data.nama || !data.juz) return alert('Nama dan Juz harus diisi!');
+  showLoading(true);
+
+  const halaman = hitungHalaman(data.baris);
+  const nilai = Math.max(0, 100 - Number(data.kesalahan || 0));
+  const rowData = [data.tanggal, data.nama, data.kelompok, data.juz, data.surat, data.juz2, data.surat2, data.waktu, data.kategori, data.dari_ayat, data.sampai_ayat, data.baris, halaman, data.kesalahan, nilai];
+
+  if(editRow !== null) {
+    allData[editRow] = rowData;
+  } else {
+    allData.push(rowData);
+  }
+
+  saveLocalData(allData);
+  ekstrakSantri();
+
+  setTimeout(() => {
+    showLoading(false);
+    showToast(editRow !== null ? 'Data diupdate' : 'Data disimpan');
+    editRow = null;
+    resetForm();
+    kembaliKeMenu();
+  }, 500);
+}
+
+function updatePeriodeInput() {
+  const p = document.getElementById('filterPeriode').value;
+  document.getElementById('mingguGroup').style.display = p === 'minggu' ? 'block' : 'none';
+  document.getElementById('bulanGroup').style.display = p === 'bulan' ? 'block' : 'none';
+  document.getElementById('dariTanggalGroup').style.display = p === 'custom' ? 'block' : 'none';
+  document.getElementById('sampaiTanggalGroup').style.display = p === 'custom' ? 'block' : 'none';
+}
+
+function applyFilter() {
+  showLoading(true);
+  const fNama = document.getElementById('filterNama').value;
+  const fKategori = document.getElementById('filterKategori').value;
+  const fWaktu = document.getElementById('filterWaktu').value;
+  const fPeriode = document.getElementById('filterPeriode').value;
+  
+  let filtered = [], indices = [];
+  for(let i = 1; i < allData.length; i++){
+    let r = allData[i], include = true;
+    if(fNama && r[1] !== fNama) include = false;
+    if(fKategori && r[8] !== fKategori) include = false;
+    if(fWaktu && r[7] !== fWaktu) include = false;
+    
+    if(fPeriode && include){
+      const rowDate = new Date(r[0]);
+      if(fPeriode === 'minggu'){
+        const wi = document.getElementById('filterMinggu').value;
+        if(wi){
+          const [y,w] = wi.split('-W');
+          const s = getDateOfISOWeek(w,y);
+          const e = new Date(s); e.setDate(e.getDate()+6);
+          if(rowDate < s || rowDate > e) include = false;
+        }
+      } else if(fPeriode === 'bulan'){
+        const mi = document.getElementById('filterBulan').value;
+        if(mi){
+          const [y,m] = mi.split('-');
+          if(rowDate.getFullYear() != y || (rowDate.getMonth()+1) != m) include = false;
+        }
+      } else if(fPeriode === 'custom'){
+        const dt = document.getElementById('filterDariTanggal').value;
+        const st = document.getElementById('filterSampaiTanggal').value;
+        if(dt && st){
+          const s = new Date(dt), e = new Date(st);
+          e.setHours(23,59,59);
+          if(rowDate < s || rowDate > e) include = false;
+        }
+      }
+    }
+    if(include){ filtered.push(r); indices.push(i); }
+  }
+  
+  filteredData = filtered; originalRowIndices = indices;
+  renderTable(filtered, indices);
+  updateStats(filtered);
+  showLoading(false);
+  showToast(`Ditemukan ${filtered.length} data`);
+}
+
+function getDateOfISOWeek(w,y){
+  const s = new Date(y, 0, 1 + (w-1)*7);
+  const d = s.getDay();
+  const r = new Date(s);
+  if(d <= 4) r.setDate(s.getDate() - s.getDay() + 1);
+  else r.setDate(s.getDate() + 8 - s.getDay());
+  return r;
+}
+
+function resetFilter(){
+  ['filterNama','filterKategori','filterWaktu','filterPeriode','filterMinggu','filterBulan','filterDariTanggal','filterSampaiTanggal'].forEach(id => document.getElementById(id).value = '');
+  updatePeriodeInput();
+  
+  let rows = [], idx = [];
+  for(let i = 1; i < allData.length; i++){ rows.push(allData[i]); idx.push(i); }
+  filteredData = rows; originalRowIndices = idx;
+  renderTable(rows, idx); updateStats(rows);
+  showToast('Filter direset');
+}
+
+function downloadExcel(){
+  if(!filteredData.length) return alert('Tidak ada data!');
+  const headers = ['Tanggal','Nama','Kelompok','Juz Awal','Surat Awal','Juz Akhir','Surat Akhir','Waktu','Kategori','Dari Ayat','Sampai Ayat','Baris','Halaman','Kesalahan','Nilai'];
+  const data = filteredData.map(r => [r[0],r[1],r[2],r[3],r[4],r[5],r[6],r[7],r[8],r[9],r[10],r[11],r[12],r[13],r[14]]);
+  const ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Rekap");
+  const n = new Date();
+  XLSX.writeFile(wb, `Rekap_${n.getFullYear()}${String(n.getMonth()+1).padStart(2,'0')}${String(n.getDate()).padStart(2,'0')}.xlsx`);
+  showToast('Excel berhasil di-download!');
+}
+
+let pdfDataForExport = [];
+function downloadPDF(){
+  if(!filteredData.length) return alert('Tidak ada data!');
+  pdfDataForExport = filteredData;
+  let info = [];
+  if(document.getElementById('filterNama').value) info.push(`Nama: ${document.getElementById('filterNama').value}`);
+  if(document.getElementById('filterKategori').value) info.push(`Kategori: ${document.getElementById('filterKategori').value}`);
+  if(document.getElementById('filterWaktu').value) info.push(`Waktu: ${document.getElementById('filterWaktu').value}`);
+  const fp = document.getElementById('filterPeriode').value;
+  if(fp === 'minggu' && document.getElementById('filterMinggu').value) info.push(`Minggu: ${document.getElementById('filterMinggu').value}`);
+  else if(fp === 'bulan' && document.getElementById('filterBulan').value) info.push(`Bulan: ${document.getElementById('filterBulan').value}`);
+  else if(fp === 'custom'){
+    const d = document.getElementById('filterDariTanggal').value;
+    const s = document.getElementById('filterSampaiTanggal').value;
+    if(d && s) info.push(`Periode: ${d} s/d ${s}`);
+  }
+  
+  document.getElementById('pdfFilterInfo').innerText = info.length ? 'Filter: ' + info.join(' | ') : 'Semua Data';
+  let html = `<table class="pdf-table"><thead><tr><th>No</th><th>Tanggal</th><th>Nama</th><th>Waktu</th><th>Juz</th><th>Surat</th><th>Kat</th><th>Dari Ayat</th><th>Sampai Ayat</th><th>Nilai</th></tr></thead><tbody>`;
+  filteredData.forEach((r,i) => {
+    html += `<tr><td>${i+1}</td><td>${r[0]||'-'}</td><td>${r[1]||'-'}</td><td>${r[7]||'-'}</td><td>${r[3]||'-'}-${r[5]||'-'}</td><td>${r[4]||'-'}<br>${r[6]||'-'}</td><td>${r[8]||'-'}</td><td>${r[9]||'-'}</td><td>${r[10]||'-'}</td><td><b>${r[14]||'0'}</b></td></tr>`;
+  });
+  html += '</tbody></table>';
+  document.getElementById('pdfTableContainer').innerHTML = html;
+  const tn = filteredData.reduce((s,r) => s + (parseFloat(r[14])||0), 0);
+  document.getElementById('pdfTotalData').innerText = filteredData.length;
+  document.getElementById('pdfRataNilai').innerText = filteredData.length ? (tn/filteredData.length).toFixed(1) : 0;
+  document.getElementById('pdfTotalHal').innerText = filteredData.reduce((s,r) => s + (parseFloat(r[12])||0), 0).toFixed(1);
+  document.getElementById('pdfDate').innerText = new Date().toLocaleString('id-ID');
+  document.getElementById('pdfModal').style.display = 'block';
+}
+
+function closePDFModal(){ document.getElementById('pdfModal').style.display = 'none'; }
+function generatePDF(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF('l', 'mm', 'a4');
+  doc.setFontSize(16); doc.setTextColor(10, 143, 90); doc.text('REKAPITULASI SETORAN HAFALAN', 148, 15, { align: 'center' });
+  doc.setFontSize(12); doc.setTextColor(100); doc.text('MUTABAAH DIGITAL PRO', 148, 22, { align: 'center' });
+  doc.setFontSize(10); doc.text(document.getElementById('pdfFilterInfo').innerText, 148, 28, { align: 'center' });
+  const td = pdfDataForExport.map((r,i) => [i+1, r[0]||'-', r[1]||'-', r[7]||'-', `${r[3]||'-'}-${r[5]||'-'}`, `${r[4]||'-'}\n${r[6]||'-'}`, r[8]||'-', r[9]||'-', r[10]||'-', r[14]||'0']);
+  doc.autoTable({
+    head: [['No','Tanggal','Nama','Waktu','Juz','Surat','Kat','Dari Ayat','Sampai Ayat','Nilai']], body: td, startY: 35, theme: 'grid',
+    headStyles: { fillColor: [10, 143, 90], textColor: 255, fontSize: 9, halign: 'center' }, bodyStyles: { fontSize: 8, halign: 'center', valign: 'middle' },
+    columnStyles: { 0: {cellWidth: 8}, 1: {cellWidth: 20}, 2: {cellWidth: 25}, 3: {cellWidth: 20}, 4: {cellWidth: 12}, 5: {cellWidth: 30}, 6: {cellWidth: 15}, 7: {cellWidth: 18}, 8: {cellWidth: 18}, 9: {cellWidth: 12} },
+    alternateRowStyles: { fillColor: [240, 248, 240] }, margin: { top: 35 }
+  });
+  const fy = doc.lastAutoTable.finalY + 10;
+  const tn = pdfDataForExport.reduce((s,r) => s + (parseFloat(r[14])||0), 0);
+  const rn = pdfDataForExport.length ? (tn/pdfDataForExport.length).toFixed(1) : 0;
+  const th = pdfDataForExport.reduce((s,r) => s + (parseFloat(r[12])||0), 0);
+  doc.setFontSize(10); doc.setTextColor(50); doc.text(`Total Data: ${pdfDataForExport.length}  |  Rata-rata Nilai: ${rn}  |  Total Halaman: ${th.toFixed(1)}`, 148, fy, { align: 'center' });
+  doc.setFontSize(9); doc.setTextColor(100); doc.text(`Dicetak pada: ${new Date().toLocaleString('id-ID')}`, 148, fy + 7, { align: 'center' });
+  const n = new Date(); doc.save(`Rekap_${n.getFullYear()}${String(n.getMonth()+1).padStart(2,'0')}${String(n.getDate()).padStart(2,'0')}.pdf`);
+  showToast('PDF berhasil di-download!'); closePDFModal();
+}
+window.onclick = e => { if(e.target == document.getElementById('pdfModal')) closePDFModal(); };
+
+function updateStats(data){
+  document.getElementById('statTotal').innerText = data.length;
+  if(data.length){
+    const tn = data.reduce((s,r) => s + (parseFloat(r[14])||0), 0);
+    document.getElementById('statRataNilai').innerText = (tn/data.length).toFixed(1);
+    document.getElementById('statTotalHal').innerText = data.reduce((s,r) => s + (parseFloat(r[12])||0), 0).toFixed(1);
+  } else { document.getElementById('statRataNilai').innerText = '0'; document.getElementById('statTotalHal').innerText = '0'; }
+}
+
+function loadTableWithFilter(){
+  showLoading(true);
+  setTimeout(() => { 
+    let rows = [], idx = [];
+    for(let i = 1; i < allData.length; i++){ rows.push(allData[i]); idx.push(i); } 
+    filteredData = rows; originalRowIndices = idx;
+    renderTable(rows, idx); updateStats(rows);
+    showLoading(false);
+  }, 300);
+}
+
+function renderTable(data, rowIndices){
+  const tb = document.querySelector('#tbl tbody');
+  tb.innerHTML = ''; document.getElementById('mobileList').innerHTML = '';
+  data.forEach((r,i) => {
+    const arrIdx = rowIndices ? rowIndices[i] : (i + 1);
+    const tr = document.createElement('tr');
+    if(arrIdx === editRow) tr.classList.add('editing');
+    tr.innerHTML = `<td>${r[0]||'-'}</td><td>${r[1]||'-'}</td><td>${r[7]||'-'}</td><td>${r[3]||'-'}</td><td>${r[4]||'-'}</td><td>${r[5]||'-'}</td><td>${r[6]||'-'}</td><td>${r[8]||'-'}</td><td>${r[9]||'-'}</td><td>${r[10]||'-'}</td><td>${r[12]||'0'}</td><td><b>${r[14]||'0'}</b></td><td><button class="icon-btn edit" onclick="editDataFromRekap(${i})">✏️</button><button class="icon-btn delete" onclick="hapusDataFromRekap(${i})">🗑️</button></td>`;
+    tb.appendChild(tr);
+    
+    const c = document.createElement('div');
+    c.className = 'data-card';
+    c.innerHTML = `<div class="card-header"><div class="nama-santri">${r[1]||'-'}</div><div class="nilai-badge">${r[14]||'0'}</div></div><div class="info-grid"><div class="info-item"><span class="info-label">📅 Tanggal</span><span class="info-value">${r[0]||'-'}</span></div><div class="info-item"><span class="info-label">⏰ Waktu</span><span class="info-value">${r[7]||'-'}</span></div><div class="info-item"><span class="info-label">📖 Juz Awal</span><span class="info-value">${r[3]||'-'} - ${r[4]||'-'}</span></div><div class="info-item"><span class="info-label">📖 Juz Akhir</span><span class="info-value">${r[5]||'-'} - ${r[6]||'-'}</span></div><div class="info-item"><span class="info-label">📝 Kategori</span><span class="info-value">${r[8]||'-'}</span></div><div class="info-item"><span class="info-label">📄 Halaman</span><span class="info-value">${r[12]||'0'} Hal</span></div></div><div class="ayat-section"><div class="ayat-title">📍 RANGE AYAT</div><div class="ayat-value">Dari: ${r[9]||'-'} | Sampai: ${r[10]||'-'}</div></div><div class="card-actions"><button class="btn-action btn-edit" onclick="editDataFromRekap(${i})"><i class="fa-solid fa-pen-to-square"></i> Edit</button><button class="btn-action btn-delete" onclick="hapusDataFromRekap(${i})"><i class="fa-solid fa-trash"></i> Hapus</button></div>`;
+    document.getElementById('mobileList').appendChild(c);
+  });
+}
+
+function editDataFromRekap(index){
+  const arrIdx = originalRowIndices[index];
+  const r = allData[arrIdx];
+  editRow = arrIdx;
+  
+  bukaInputForm(); 
+  
+  document.getElementById('tanggal').value = r[0]||'';
+  document.getElementById('nama').value = r[1]||'';
+  document.getElementById('kelompok').value = r[2]||'';
+  document.getElementById('juz').value = r[3]||'';
+  updateSuratLokal('juz', 'surat'); document.getElementById('surat').value = r[4]||'';
+  document.getElementById('juz2').value = r[5]||'';
+  updateSuratLokal('juz2', 'surat2'); document.getElementById('surat2').value = r[6]||'';
+  document.getElementById('waktu_halqoh').value = r[7]||'';
+  document.getElementById('kategori').value = r[8]||'';
+  document.getElementById('dari_ayat').value = r[9]||'';
+  document.getElementById('sampai_ayat').value = r[10]||'';
+  document.getElementById('baris').value = r[11]||'';
+  document.getElementById('kesalahan').value = r[13]||'';
+  document.getElementById('nilai').value = r[14]||'';
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function hapusDataFromRekap(index){
+  const arrIdx = originalRowIndices[index];
+  if(!confirm('Hapus data ini?')) return;
+  showLoading(true);
+  
+  allData.splice(arrIdx, 1);
+  saveLocalData(allData);
+  
+  setTimeout(() => {
+    showLoading(false);
+    showToast('Data dihapus');
+    loadTableWithFilter();
+  }, 500);
+}
+
+function resetForm(){
+  ['tanggal','dari_ayat','sampai_ayat','baris','kesalahan','nilai','juz','juz2','nama','kelompok','waktu_halqoh','kategori'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('surat').innerHTML = '<option value="">- Pilih Surat -</option>';
+  document.getElementById('surat2').innerHTML = '<option value="">- Pilih Surat -</option>';
+}
+
+function showToast(t){
+  const toast = document.getElementById('toast');
+  toast.innerText = t; toast.style.display = 'block';
+  setTimeout(() => toast.style.display = 'none', 2000);
+}
+function showLoading(s = true){ document.getElementById('loading').style.display = s ? 'flex' : 'none'; }
+
+function prosesImportExcel(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  showLoading(true);
+
+  reader.onload = function(e) {
+    try {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: 'array' });
+      const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+      
+      const jsonData = XLSX.utils.sheet_to_json(firstSheet, { defval: "" });
+
+      if (jsonData.length === 0) {
+        showLoading(false);
+        alert("File kosong atau format tidak sesuai.");
+        return;
+      }
+
+      let jumlahBaru = 0;
+      let jumlahDiupdate = 0;
+
+      jsonData.forEach(row => {
+        const tgl = row['Tanggal'] || new Date().toISOString().split('T')[0];
+        const nama = row['Nama'] || '';
+        const waktu = row['Waktu'] || row['Waktu Halqoh'] || '';
+        const kategori = row['Kategori'] || '';
+        
+        const jumlahBaris = parseFloat(row['Baris']) || 0;
+        const hitungHalaman = Math.round((jumlahBaris / 15) * 10) / 10;
+        const jumlahKesalahan = parseFloat(row['Kesalahan']) || 0;
+        const hitungNilai = row['Nilai'] !== undefined && row['Nilai'] !== "" ? parseFloat(row['Nilai']) : Math.max(0, 100 - jumlahKesalahan);
+
+        const rowData = [
+          tgl, nama, row['Kelompok'] || '', row['Juz Awal'] || row['Juz'] || '', row['Surat Awal'] || row['Surat'] || '', row['Juz Akhir'] || '', row['Surat Akhir'] || '', waktu, kategori, row['Dari Ayat'] || '', row['Sampai Ayat'] || '', jumlahBaris, hitungHalaman, jumlahKesalahan, hitungNilai
+        ];
+
+        const existingIndex = allData.findIndex(item => 
+          item[0] === tgl && item[1] === nama && item[7] === waktu && item[8] === kategori
+        );
+
+        if (existingIndex !== -1) {
+          allData[existingIndex] = rowData;
+          jumlahDiupdate++;
+        } else {
+          allData.push(rowData);
+          jumlahBaru++;
+        }
+      });
+
+      saveLocalData(allData);
+
+      showLoading(false);
+      showToast(`${jumlahBaru} baru ditambahkan, ${jumlahDiupdate} diperbarui!`);
+      
+      loadTableWithFilter();
+      loadTotalSetoran(); 
+      
+    } catch (error) {
+      showLoading(false);
+      alert("Terjadi kesalahan saat membaca file: " + error.message);
+    } finally {
+      event.target.value = ""; 
+    }
+  };
+
+  reader.readAsArrayBuffer(file);
+}
+// ==========================================
+// FUNGSI EXPORT ABSENSI (EXCEL & PDF)
+// ==========================================
+
+function exportAbsenExcel() {
+    const filterBulan = document.getElementById('filterBulanAbsen').value;
+    let absenData = getAbsensiData();
+    
+    // Filter data sesuai bulan yang dipilih (jika ada)
+    let filtered = filterBulan ? absenData.filter(a => a.tanggal.startsWith(filterBulan)) : absenData;
+    filtered.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+
+    if(filtered.length === 0) return alert('Tidak ada data absensi untuk diexport!');
+
+    const headers = ['Tanggal', 'Waktu', 'Nama Santri', 'Status'];
+    const data = filtered.map(d => {
+        let statusFull = d.status === 'H' ? 'Hadir' : (d.status === 'S' ? 'Sakit' : (d.status === 'I' ? 'Izin' : 'Alpa'));
+        return [d.tanggal, d.waktu, d.nama, statusFull];
+    });
+
+    const ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Rekap Absensi");
+    
+    let namaFile = filterBulan ? `Rekap_Absensi_${filterBulan}.xlsx` : `Rekap_Absensi_Semua.xlsx`;
+    XLSX.writeFile(wb, namaFile);
+    
+    if(typeof showToast === 'function') showToast('Excel Absensi berhasil di-download!');
+}
+
+function exportAbsenPDF() {
+    const filterBulan = document.getElementById('filterBulanAbsen').value;
+    let absenData = getAbsensiData();
+    
+    // Filter data sesuai bulan yang dipilih
+    let filtered = filterBulan ? absenData.filter(a => a.tanggal.startsWith(filterBulan)) : absenData;
+    filtered.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+
+    if(filtered.length === 0) return alert('Tidak ada data absensi untuk diexport!');
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('p', 'mm', 'a4'); // Kertas A4 mode Portrait
+    
+    // Judul PDF
+    doc.setFontSize(16); doc.setTextColor(10, 143, 90); doc.text('REKAPITULASI ABSENSI HALQOH', 105, 15, { align: 'center' });
+    doc.setFontSize(12); doc.setTextColor(100); doc.text('MUTABAAH DIGITAL PRO', 105, 22, { align: 'center' });
+    
+    let infoBulan = filterBulan ? `Periode Bulan: ${filterBulan}` : 'Semua Data Absensi';
+    doc.setFontSize(10); doc.text(infoBulan, 105, 28, { align: 'center' });
+
+    // Menyusun data tabel
+    const td = filtered.map((d, i) => {
+        let statusFull = d.status === 'H' ? 'Hadir' : (d.status === 'S' ? 'Sakit' : (d.status === 'I' ? 'Izin' : 'Alpa'));
+        return [i+1, d.tanggal, d.waktu, d.nama, statusFull];
+    });
+
+    // Membuat tabel
+    doc.autoTable({
+        head: [['No', 'Tanggal', 'Waktu', 'Nama Santri', 'Status']],
+        body: td,
+        startY: 35,
+        theme: 'grid',
+        headStyles: { fillColor: [10, 143, 90], textColor: 255, halign: 'center' },
+        bodyStyles: { halign: 'center', valign: 'middle' },
+        columnStyles: { 0: {cellWidth: 10}, 1: {cellWidth: 30}, 2: {cellWidth: 35}, 3: {cellWidth: 80, halign: 'left'}, 4: {cellWidth: 25} },
+        alternateRowStyles: { fillColor: [240, 248, 240] }
+    });
+
+    // Keterangan waktu cetak
+    doc.setFontSize(9); doc.setTextColor(100); doc.text(`Dicetak pada: ${new Date().toLocaleString('id-ID')}`, 105, doc.lastAutoTable.finalY + 10, { align: 'center' });
+    
+    // Download File
+    let namaFile = filterBulan ? `Rekap_Absensi_${filterBulan}.pdf` : `Rekap_Absensi_Semua.pdf`;
+    doc.save(namaFile);
+    
+    if(typeof showToast === 'function') showToast('PDF Absensi berhasil di-download!');
+}
+
+</script>
+</body>
+</html>
