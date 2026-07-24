@@ -2,7 +2,7 @@
   "name": "Mutabaah Digital Pro",
   "short_name": "Mutabaah",
   "description": "Aplikasi Manajemen Setoran Hafalan Al-Qur'an",
-  "start_url": "./mutabaah2.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f0f4f0",
   "theme_color": "#0a8f5a",
