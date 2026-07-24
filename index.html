@@ -46,9 +46,9 @@
 
     /* CSS RESET & STYLES */
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    html, body { margin: 0; padding: 0; min-height: 100vh; font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.5; color: var(--ink); }
+    html, body { margin: 0; padding: 0; min-height: 100vh; font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.45; color: var(--ink); }
     body {
-      padding: 10px;
+      padding: 8px;
       background-color: var(--cream);
       background-image:
         radial-gradient(circle at 0% 0%, rgba(15,110,79,0.05) 0, transparent 45%),
@@ -59,9 +59,9 @@
 
     h3 {
       background: linear-gradient(135deg, var(--emerald-800), var(--emerald-700));
-      color: #fff; padding: 16px 15px; border-radius: 14px; font-size: 17px;
-      text-align: center; margin: 6px 0 22px 0; font-weight: 700;
-      letter-spacing: 0.3px; box-shadow: var(--shadow-md);
+      color: #fff; padding: 12px 14px; border-radius: 12px; font-size: 14.5px;
+      text-align: center; margin: 4px 0 16px 0; font-weight: 700;
+      letter-spacing: 0.2px; box-shadow: var(--shadow-md);
       position: relative; overflow: hidden;
     }
     h3::after {
@@ -73,110 +73,115 @@
     @keyframes shimmer { 0%,100% { left: -50%; } 50% { left: 110%; } }
     h3.plain-title::after { content: none; }
 
-    .back-btn { display: inline-flex; align-items: center; gap: 8px; background: #fff; color: var(--emerald-800); border: 1.5px solid var(--line); padding: 11px 18px; border-radius: 10px; font-size: 14px; font-weight: 700; margin-bottom: 15px; cursor: pointer; box-shadow: var(--shadow-sm); }
+    .back-btn { display: inline-flex; align-items: center; gap: 6px; background: #fff; color: var(--emerald-800); border: 1.5px solid var(--line); padding: 8px 14px; border-radius: 9px; font-size: 12.5px; font-weight: 700; margin-bottom: 12px; cursor: pointer; box-shadow: var(--shadow-sm); }
     .back-btn:active { transform: scale(0.97); }
 
-    .form-container { width: 100%; background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 18px; box-shadow: var(--shadow-sm); }
+    .form-container { width: 100%; background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 14px; box-shadow: var(--shadow-sm); }
     .form-grid { display: block !important; width: 100%; }
-    .form-column { width: 100%; display: block; margin-bottom: 20px; }
+    .form-column { width: 100%; display: block; margin-bottom: 16px; }
     .section-title {
-      font-size: 13px; font-weight: 800; color: var(--emerald-700);
-      margin: 22px 0 12px 0; padding-bottom: 9px; letter-spacing: 0.6px;
+      font-size: 11.5px; font-weight: 800; color: var(--emerald-700);
+      margin: 18px 0 10px 0; padding-bottom: 7px; letter-spacing: 0.5px;
       text-transform: uppercase; position: relative;
       border-bottom: 1px solid var(--line);
     }
     .section-title::after {
-      content: ''; position: absolute; left: 0; bottom: -1px; height: 3px; width: 46px;
+      content: ''; position: absolute; left: 0; bottom: -1px; height: 3px; width: 38px;
       background: linear-gradient(90deg, var(--gold-600), var(--emerald-700)); border-radius: 3px;
     }
 
     input, select {
-      width: 100%; height: 52px; padding: 0 16px; margin-bottom: 12px; border-radius: 10px;
-      border: 1.5px solid var(--line); background: var(--paper); font-size: 15.5px; color: var(--ink);
+      width: 100%; height: 44px; padding: 0 13px; margin-bottom: 10px; border-radius: 9px;
+      border: 1.5px solid var(--line); background: var(--paper); font-size: 14px; color: var(--ink);
       -webkit-appearance: none; appearance: none; font-family: inherit; transition: border-color .15s, box-shadow .15s;
     }
-    input:focus, select:focus { border-color: var(--emerald-700); outline: none; box-shadow: 0 0 0 4px rgba(15,110,79,0.13); }
+    input:focus, select:focus { border-color: var(--emerald-700); outline: none; box-shadow: 0 0 0 3px rgba(15,110,79,0.13); }
     input::placeholder { color: #9a9284; }
-    select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230f6e4f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; background-size: 22px; padding-right: 45px; }
+    select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230f6e4f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 11px center; background-size: 18px; padding-right: 38px; }
     input[readonly] { background: var(--cream) !important; color: var(--ink-soft); font-weight: 700; }
-    .input-row { display: flex; gap: 10px; width: 100%; }
+    .input-row { display: flex; gap: 8px; width: 100%; }
     .input-row > * { flex: 1; }
-    .input-hint { font-size: 12.5px; color: var(--ink-soft); margin: -8px 0 15px 0; font-style: italic; }
+    .input-hint { font-size: 11px; color: var(--ink-soft); margin: -6px 0 12px 0; font-style: italic; }
 
     button.btn {
-      width: 100%; height: 54px; border-radius: 12px; border: none;
+      width: 100%; height: 46px; border-radius: 10px; border: none;
       background: linear-gradient(135deg, var(--emerald-700), var(--emerald-800));
-      color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 20px;
-      box-shadow: var(--shadow-gold); letter-spacing: 0.3px; transition: transform .12s, box-shadow .12s;
+      color: #fff; font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 16px;
+      box-shadow: var(--shadow-gold); letter-spacing: 0.2px; transition: transform .12s, box-shadow .12s;
     }
     button.btn:active { transform: translateY(1px) scale(0.99); }
 
-    .menu-page { padding: 6px; }
-    .menu-title { text-align: center; color: var(--emerald-800); font-size: 21px; font-weight: 800; margin: 14px 0 22px; font-family: 'Reem Kufi', 'Plus Jakarta Sans', sans-serif; letter-spacing: 0.3px; }
-    .menu-card { background: var(--paper); border: 1px solid var(--line); border-radius: 18px; padding: 20px; margin-bottom: 18px; box-shadow: var(--shadow-md); }
+    .menu-page { padding: 4px; }
+    .menu-title { text-align: center; color: var(--emerald-800); font-size: 18px; font-weight: 800; margin: 10px 0 16px; font-family: 'Reem Kufi', 'Plus Jakarta Sans', sans-serif; letter-spacing: 0.2px; }
+    .menu-card { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 15px; margin-bottom: 14px; box-shadow: var(--shadow-md); }
     .menu-btn {
-      width: 100%; height: 58px; border-radius: 12px; border: none; font-size: 15.5px; font-weight: 700;
-      cursor: pointer; margin-bottom: 12px; display: flex; align-items: center; justify-content: center;
-      gap: 12px; color: #fff; letter-spacing: 0.2px; box-shadow: 0 4px 12px rgba(0,0,0,0.12); transition: transform .12s;
+      width: 100%; height: 48px; border-radius: 10px; border: none; font-size: 13.5px; font-weight: 700;
+      cursor: pointer; margin-bottom: 10px; display: flex; align-items: center; justify-content: center;
+      gap: 10px; color: #fff; letter-spacing: 0.1px; box-shadow: 0 4px 12px rgba(0,0,0,0.12); transition: transform .12s;
     }
     .menu-btn:active, .btn:active { transform: scale(0.98); }
     .menu-btn-primary { background: linear-gradient(135deg, var(--emerald-700), var(--emerald-800)); }
     .menu-btn-secondary { background: linear-gradient(135deg, #746a58, #544d42); }
 
-    .stats-card { background: linear-gradient(135deg, var(--emerald-700), var(--emerald-900)); color: #fff; border-radius: 14px; padding: 20px; text-align: center; box-shadow: var(--shadow-md); position: relative; overflow: hidden; }
+    .stats-card { background: linear-gradient(135deg, var(--emerald-700), var(--emerald-900)); color: #fff; border-radius: 12px; padding: 15px; text-align: center; box-shadow: var(--shadow-md); position: relative; overflow: hidden; }
     .stats-card::before { content: ''; position: absolute; top: -30px; right: -30px; width: 90px; height: 90px; border: 10px solid rgba(232,199,102,0.18); border-radius: 50%; }
-    .stats-number { font-size: 30px; font-weight: 800; margin-bottom: 4px; color: var(--gold-400); }
-    .stats-label { font-size: 12px; opacity: 0.9; letter-spacing: 0.3px; }
+    .stats-number { font-size: 23px; font-weight: 800; margin-bottom: 3px; color: var(--gold-400); }
+    .stats-label { font-size: 10.5px; opacity: 0.9; letter-spacing: 0.2px; }
 
-    #dashboardPage { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center; }
-    #dashboardPage img { width: 180px; margin-bottom: 20px; }
+    #dashboardPage { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px; text-align: center; }
+    #dashboardPage img { width: 150px; margin-bottom: 16px; }
     #dashboardPage h2 {
-      color: var(--emerald-800); font-size: 25px; margin-bottom: 8px; font-weight: 800;
-      font-family: 'Reem Kufi', 'Plus Jakarta Sans', sans-serif; letter-spacing: 0.4px;
+      color: var(--emerald-800); font-size: 21px; margin-bottom: 6px; font-weight: 800;
+      font-family: 'Reem Kufi', 'Plus Jakarta Sans', sans-serif; letter-spacing: 0.3px;
     }
-    #dashboardPage > div { max-width: 420px; }
-    #dashboardPage > div > p { color: var(--ink-soft); font-size: 14px; margin-top: 0; }
+    #dashboardPage > div { max-width: 400px; }
+    #dashboardPage > div > p { color: var(--ink-soft); font-size: 12.5px; margin-top: 0; }
     .dashboard-box {
-      background: var(--paper); border: 1.5px solid var(--gold-100); border-radius: 20px; padding: 30px 25px; margin: 22px 0;
+      background: var(--paper); border: 1.5px solid var(--gold-100); border-radius: 18px; padding: 24px 20px; margin: 18px 0;
       box-shadow: var(--shadow-md); position: relative;
     }
     .dashboard-box::before, .dashboard-box::after {
-      content: ''; position: absolute; width: 26px; height: 26px; border: 2.5px solid var(--gold-600); opacity: 0.55;
+      content: ''; position: absolute; width: 22px; height: 22px; border: 2px solid var(--gold-600); opacity: 0.55;
     }
-    .dashboard-box::before { top: 10px; left: 10px; border-right: none; border-bottom: none; }
-    .dashboard-box::after { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+    .dashboard-box::before { top: 9px; left: 9px; border-right: none; border-bottom: none; }
+    .dashboard-box::after { bottom: 9px; right: 9px; border-left: none; border-top: none; }
 
-    .filter-container { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 15px; box-shadow: var(--shadow-sm); }
-    .filter-grid { display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; }
-    .filter-group label { display: block; font-size: 12px; font-weight: 700; color: var(--ink-soft); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.4px; }
-    .filter-actions { display: flex; flex-direction: column; gap: 10px; }
-    .btn-filter, .btn-reset, .btn-download, .btn-pdf { width: 100%; height: 48px; border: none; border-radius: 10px; font-size: 14.5px; font-weight: 700; cursor: pointer; color: #fff; letter-spacing: 0.2px; box-shadow: 0 3px 10px rgba(0,0,0,0.12); }
+    .filter-container { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 13px; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
+    .filter-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+    .filter-group label { display: block; font-size: 10.5px; font-weight: 700; color: var(--ink-soft); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.3px; }
+    .filter-actions { display: flex; flex-direction: column; gap: 8px; }
+    .btn-filter, .btn-reset, .btn-download, .btn-pdf { width: 100%; height: 42px; border: none; border-radius: 9px; font-size: 13px; font-weight: 700; cursor: pointer; color: #fff; letter-spacing: 0.1px; box-shadow: 0 3px 10px rgba(0,0,0,0.12); }
     .btn-filter { background: linear-gradient(135deg, var(--emerald-700), var(--emerald-800)); }
     .btn-reset { background: #786f61; }
     .btn-download { background: linear-gradient(135deg, #1f8a5f, #14875f); }
     .btn-pdf { background: linear-gradient(135deg, var(--danger), #7a2822); }
 
-    .stats-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
-    .stats-container .stats-card { padding: 15px 5px; }
-    .stats-container .stats-number { font-size: 20px; }
-    .stats-container .stats-label { font-size: 9.5px; }
+    .stats-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+    .stats-container .stats-card { padding: 12px 4px; }
+    .stats-container .stats-number { font-size: 17px; }
+    .stats-container .stats-label { font-size: 8.5px; }
+    .stats-container.cols-4 { grid-template-columns: repeat(2, 1fr); }
 
-    .table-wrapper { overflow-x: auto; border-radius: 14px; background: var(--paper); border: 1px solid var(--line); }
+    .table-wrapper { overflow-x: auto; border-radius: 12px; background: var(--paper); border: 1px solid var(--line); }
     table { display: none; }
-    #mobileList { display: block; padding: 4px; }
-    .data-card { background: var(--paper); border: 1px solid var(--line); border-left: 4px solid var(--gold-600); border-radius: 14px; padding: 16px; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
-    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px dashed var(--line); }
-    .nama-santri { font-weight: 700; font-size: 16.5px; color: var(--emerald-800); }
-    .nilai-badge { background: linear-gradient(135deg, var(--emerald-700), var(--emerald-600)); color: #fff; padding: 6px 13px; border-radius: 20px; font-weight: 700; font-size: 13.5px; box-shadow: 0 2px 6px rgba(15,110,79,0.3); }
-    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    #tblAbsen { display: table !important; width: 100%; min-width: 560px; border-collapse: collapse; font-size: 11.5px; }
+    #tblAbsen th, #tblAbsen td { padding: 8px 6px; text-align: center; border-bottom: 1px solid var(--line); white-space: nowrap; }
+    #tblAbsen th { background: var(--emerald-700); color: #fff; font-weight: 700; letter-spacing: 0.2px; }
+    #tblAbsen tbody tr:hover { background: var(--emerald-100); }
+    #mobileList { display: block; padding: 3px; }
+    .data-card { background: var(--paper); border: 1px solid var(--line); border-left: 4px solid var(--gold-600); border-radius: 12px; padding: 13px; margin-bottom: 10px; box-shadow: var(--shadow-sm); }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed var(--line); }
+    .nama-santri { font-weight: 700; font-size: 14.5px; color: var(--emerald-800); }
+    .nilai-badge { background: linear-gradient(135deg, var(--emerald-700), var(--emerald-600)); color: #fff; padding: 5px 11px; border-radius: 18px; font-weight: 700; font-size: 12px; box-shadow: 0 2px 6px rgba(15,110,79,0.3); }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
     .info-item { display: flex; flex-direction: column; }
-    .info-label { font-size: 10.5px; color: #a49c8c; text-transform: uppercase; letter-spacing: 0.3px; }
-    .info-value { font-size: 13.5px; color: var(--ink); font-weight: 700; }
-    .ayat-section { background: var(--cream); border: 1px dashed var(--gold-600); padding: 12px; border-radius: 10px; margin: 12px 0; text-align: center; }
-    .ayat-title { font-size: 11.5px; color: var(--gold-700); font-weight: 800; letter-spacing: 0.3px; }
-    .ayat-value { font-size: 14.5px; color: var(--ink); font-weight: 700; }
-    .card-actions { display: flex; gap: 10px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
-    .btn-action { flex: 1; height: 42px; border: none; border-radius: 8px; font-size: 13.5px; font-weight: 700; cursor: pointer; }
+    .info-label { font-size: 9.5px; color: #a49c8c; text-transform: uppercase; letter-spacing: 0.2px; }
+    .info-value { font-size: 12px; color: var(--ink); font-weight: 700; }
+    .ayat-section { background: var(--cream); border: 1px dashed var(--gold-600); padding: 10px; border-radius: 9px; margin: 10px 0; text-align: center; }
+    .ayat-title { font-size: 10px; color: var(--gold-700); font-weight: 800; letter-spacing: 0.2px; }
+    .ayat-value { font-size: 13px; color: var(--ink); font-weight: 700; }
+    .card-actions { display: flex; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+    .btn-action { flex: 1; height: 36px; border: none; border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer; }
     .btn-edit { background: var(--gold-100); color: var(--gold-700); }
     .btn-delete { background: #f7dedb; color: var(--danger); }
 
@@ -196,18 +201,40 @@
     .pdf-close, .pdf-download { padding: 12px 24px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; color: #fff; }
     .pdf-close { background: #786f61; } .pdf-download { background: linear-gradient(135deg, var(--danger), #7a2822); }
 
+    /* ABSENSI — kartu santri & chip status */
+    .absen-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+    .absen-tabs button { flex: 1; height: 40px; border: none; border-radius: 9px; font-size: 12.5px; font-weight: 700; cursor: pointer; color: #fff; margin-top: 0; }
+    .absen-toolbar { background: var(--paper); border: 1px solid var(--line); padding: 12px; border-radius: 12px; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
+    .absen-list { display: flex; flex-direction: column; gap: 8px; }
+    .absen-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; background: var(--paper); border: 1px solid var(--line); border-radius: 11px; padding: 9px 11px; box-shadow: var(--shadow-sm); }
+    .absen-nama { font-size: 12.5px; font-weight: 700; color: var(--ink); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .absen-chips { display: flex; gap: 5px; flex-shrink: 0; }
+    .absen-chips input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .absen-chip { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 11.5px; font-weight: 800; cursor: pointer; border: 1.5px solid var(--line); color: var(--ink-soft); background: var(--cream); transition: all .12s; }
+    .absen-chips label input:checked + span { color: #fff; }
+    .chip-h input:checked + span { background: #2e8b57; border-color: #2e8b57; box-shadow: 0 2px 8px rgba(46,139,87,0.4); }
+    .chip-s input:checked + span { background: #c98f1f; border-color: #c98f1f; box-shadow: 0 2px 8px rgba(201,143,31,0.4); }
+    .chip-i input:checked + span { background: #0e7c86; border-color: #0e7c86; box-shadow: 0 2px 8px rgba(14,124,134,0.4); }
+    .chip-a input:checked + span { background: #a8362f; border-color: #a8362f; box-shadow: 0 2px 8px rgba(168,54,47,0.4); }
+    .absen-chip span { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; border-radius: 6.5px; }
+    .absen-legend { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; font-size: 10.5px; color: var(--ink-soft); margin: 4px 0 12px; }
+    .absen-legend span { display: inline-flex; align-items: center; gap: 4px; }
+    .absen-legend i { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
+
     @media screen and (min-width: 769px) {
-      body { padding: 24px; }
-      .form-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 30px; }
-      table { display: table; width: 100%; min-width: 900px; border-collapse: collapse; font-size: 13px; }
-      th, td { padding: 12px; text-align: center; border-bottom: 1px solid var(--line); }
-      th { background: var(--emerald-700); color: #fff; font-weight: 700; letter-spacing: 0.3px; }
+      body { padding: 18px; }
+      .form-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 24px; }
+      table { display: table; width: 100%; min-width: 900px; border-collapse: collapse; font-size: 12px; }
+      th, td { padding: 9px; text-align: center; border-bottom: 1px solid var(--line); }
+      th { background: var(--emerald-700); color: #fff; font-weight: 700; letter-spacing: 0.2px; }
       tbody tr:hover { background: var(--emerald-100); }
       #mobileList { display: none !important; }
-      .filter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
+      .filter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+      .stats-container.cols-4 { grid-template-columns: repeat(4, 1fr); }
       .filter-actions { flex-direction: row; flex-wrap: wrap; justify-content: center; }
-      .btn-filter, .btn-reset, .btn-download, .btn-pdf { width: auto; padding: 0 24px; }
-      .menu-card { max-width: 520px; margin-left: auto; margin-right: auto; }
+      .btn-filter, .btn-reset, .btn-download, .btn-pdf { width: auto; padding: 0 20px; }
+      .menu-card { max-width: 460px; margin-left: auto; margin-right: auto; }
+      .absen-row { max-width: 460px; margin-left: auto; margin-right: auto; }
     }
   </style>
 </head>
@@ -300,11 +327,12 @@
     <h3><i class="fa-solid fa-users"></i> Master Data Santri</h3>
     
     <div style="background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px;">
-      <label style="font-weight: bold; font-size: 14px; color: #333;">Tambah Santri Baru</label>
+      <label style="font-weight: bold; font-size: 14px; color: #333;" id="labelFormSantri">Tambah Santri Baru</label>
       <div style="display: flex; gap: 10px; margin-top: 5px; flex-wrap: wrap;">
         <input type="text" id="inputNamaSantri" placeholder="Nama lengkap santri..." style="flex: 2; min-width: 150px; margin-bottom: 0;">
         <input type="text" id="inputKelompokSantri" placeholder="Kelas / Kelompok..." style="flex: 1; min-width: 120px; margin-bottom: 0;">
-        <button onclick="tambahSantri()" style="background: #7a3b6d; color: white; border: none; padding: 0 20px; border-radius: 10px; cursor: pointer; font-weight: bold; height: 54px;">Tambah</button>
+        <button id="btnSimpanSantri" onclick="tambahSantri()" style="background: #7a3b6d; color: white; border: none; padding: 0 20px; border-radius: 10px; cursor: pointer; font-weight: bold; height: 54px;">Tambah</button>
+        <button id="btnBatalEditSantri" onclick="batalEditSantri()" style="display:none; background: #786f61; color: white; border: none; padding: 0 20px; border-radius: 10px; cursor: pointer; font-weight: bold; height: 54px;">Batal</button>
       </div>
     </div>
 
@@ -315,7 +343,7 @@
             <th style="padding: 12px; border-bottom: 1px solid #ddd; width: 50px;">No</th>
             <th style="padding: 12px; border-bottom: 1px solid #ddd; text-align: left;">Nama Santri</th>
             <th style="padding: 12px; border-bottom: 1px solid #ddd; text-align: left;">Kelas / Kelompok</th>
-            <th style="padding: 12px; border-bottom: 1px solid #ddd; text-align: center; width: 80px;">Aksi</th>
+            <th style="padding: 12px; border-bottom: 1px solid #ddd; text-align: center; width: 90px;">Aksi</th>
           </tr>
         </thead>
         <tbody id="bodyDaftarSantri"></tbody>
@@ -324,64 +352,96 @@
   </div>
 
   <div id="sectionAbsensi" style="display: none;">
-    <h3>📋 Kelola Absensi Halqoh</h3>
-    
-    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-      <button class="btn" id="btnTabInputAbsen" style="flex: 1; background: #0f6e4f; margin-top:0;" onclick="switchTabAbsensi('input')">Form Absen</button>
-      <button class="btn" id="btnTabRekapAbsen" style="flex: 1; background: #8a8275; margin-top:0;" onclick="switchTabAbsensi('rekap')">Data Rekap</button>
+    <h3><i class="fa-solid fa-clipboard-check"></i> Kelola Absensi Halqoh</h3>
+
+    <div class="absen-tabs">
+      <button id="btnTabInputAbsen" style="background: var(--emerald-700);" onclick="switchTabAbsensi('input')"><i class="fa-solid fa-pen"></i> Form Absen</button>
+      <button id="btnTabRekapAbsen" style="background: #8a8275;" onclick="switchTabAbsensi('rekap')"><i class="fa-solid fa-list"></i> Data Rekap</button>
     </div>
 
     <div id="areaInputAbsensi">
-      <div class="form-container" style="background:#fff; padding:15px; border-radius:14px; margin-bottom:15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-          <input type="date" id="tanggalAbsen" style="flex: 1; min-width: 150px; margin-bottom: 0;">
-          <select id="waktuAbsen" style="flex: 1; min-width: 150px; margin-bottom: 0;">
+      <div class="absen-toolbar">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <input type="date" id="tanggalAbsen" style="flex: 1; min-width: 130px; margin-bottom: 0;">
+          <select id="waktuAbsen" style="flex: 1; min-width: 130px; margin-bottom: 0;">
             <option value="Halqoh Pagi">Halqoh Pagi</option>
             <option value="Halqoh Malam">Halqoh Malam</option>
           </select>
-          <button onclick="generateFormAbsen()" style="background:#0e7c86; color:white; border:none; border-radius:10px; padding:0 20px; font-weight:bold; height: 54px;">Muat Santri</button>
         </div>
+        <button onclick="generateFormAbsen()" style="width:100%; background:#0e7c86; color:white; border:none; border-radius:9px; padding:0; font-weight:bold; height: 42px; margin-top:8px; cursor:pointer;"><i class="fa-solid fa-users"></i> Muat Santri</button>
       </div>
 
-      <div class="table-container" id="containerTabelAbsen" style="display:none; background:#fff; padding:10px; border-radius:14px; overflow-x: auto;">
-        <table id="tblInputAbsen" style="display: table; width: 100%;">
-          <thead>
-            <tr>
-              <th style="text-align:left; background: #0e7c86;">Nama Santri</th>
-              <th width="40" style="background: #2e8b57;">H</th>
-              <th width="40" style="background: #c98f1f;">S</th>
-              <th width="40" style="background: #0e7c86;">I</th>
-              <th width="40" style="background: #a8362f;">A</th>
-            </tr>
-          </thead>
-          <tbody id="bodyInputAbsen"></tbody>
-        </table>
-        <button class="btn" onclick="simpanDataAbsensi()" style="margin-top:15px; background:#0f6e4f;">
+      <div class="table-container" id="containerTabelAbsen" style="display:none;">
+        <div class="absen-legend">
+          <span><i style="background:#2e8b57;"></i> Hadir</span>
+          <span><i style="background:#c98f1f;"></i> Sakit</span>
+          <span><i style="background:#0e7c86;"></i> Izin</span>
+          <span><i style="background:#a8362f;"></i> Alpa</span>
+        </div>
+        <div class="absen-list" id="bodyInputAbsen"></div>
+        <button class="btn" onclick="simpanDataAbsensi()" style="margin-top:14px;">
           <i class="fa-solid fa-floppy-disk"></i> Simpan Absensi
         </button>
       </div>
     </div>
 
     <div id="areaRekapAbsensi" style="display: none;">
-<div style="background:#fff; padding:15px; border-radius:14px; margin-bottom:15px; display:flex; gap:10px; flex-wrap: wrap;">
-  <input type="month" id="filterBulanAbsen" onchange="renderRekapAbsensi()" style="flex:1; min-width: 150px; height: 54px; border-radius:10px; border:2px solid #e0e0e0; padding:0 16px; margin-bottom: 0;">
-  <button onclick="exportAbsenExcel()" style="background:#2e8b57; color:#fff; border:none; border-radius:10px; padding:0 15px; height: 54px; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-file-excel"></i> Excel</button>
-  <button onclick="exportAbsenPDF()" style="background:#a8362f; color:#fff; border:none; border-radius:10px; padding:0 15px; height: 54px; font-weight: bold; cursor: pointer;"><i class="fa-solid fa-file-pdf"></i> PDF</button>
-</div>
-       <div class="table-container" style="overflow-x: auto; background:#fff; border-radius:14px;">
-          <table id="tblRekapAbsensi" style="display: table; width: 100%;">
-            <thead>
-              <tr>
-                <th style="background: #0e7c86;">Tanggal</th>
-                <th style="background: #0e7c86;">Waktu</th>
-                <th style="background: #0e7c86;">Nama</th>
-                <th style="background: #0e7c86;">Status</th>
-                <th style="background: #0e7c86;">Aksi</th>
-              </tr>
-            </thead>
-            <tbody id="bodyRekapAbsensi"></tbody>
-          </table>
-       </div>
+      <div class="filter-container">
+        <div style="font-size: 14px; font-weight: 700; color: var(--emerald-700); margin-bottom: 12px; text-align: center;"><i class="fa-solid fa-filter"></i> Filter Absensi</div>
+        <div class="filter-grid">
+          <div class="filter-group">
+            <label>Nama Santri</label>
+            <select id="filterNamaAbsen"><option value="">Semua Santri</option></select>
+          </div>
+          <div class="filter-group">
+            <label>Status</label>
+            <select id="filterStatusAbsen">
+              <option value="">Semua Status</option>
+              <option value="H">Hadir</option>
+              <option value="S">Sakit</option>
+              <option value="I">Izin</option>
+              <option value="A">Alpa</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Waktu Halqoh</label>
+            <select id="filterWaktuAbsen"><option value="">Semua Waktu</option><option value="Halqoh Pagi">Halqoh Pagi</option><option value="Halqoh Malam">Halqoh Malam</option></select>
+          </div>
+          <div class="filter-group">
+            <label>Periode</label>
+            <select id="filterPeriodeAbsen" onchange="updatePeriodeInputAbsen()">
+              <option value="bulan" selected>Per Bulan</option>
+              <option value="">Semua Periode</option>
+              <option value="minggu">Per Minggu</option>
+              <option value="custom">Rentang Tanggal</option>
+            </select>
+          </div>
+          <div class="filter-group" id="mingguGroupAbsen" style="display: none;"><label>Pilih Minggu</label><input type="week" id="filterMingguAbsen"></div>
+          <div class="filter-group" id="bulanGroupAbsen"><label>Pilih Bulan</label><input type="month" id="filterBulanAbsen"></div>
+          <div class="filter-group" id="dariTanggalGroupAbsen" style="display: none;"><label>Dari Tanggal</label><input type="date" id="filterDariTanggalAbsen"></div>
+          <div class="filter-group" id="sampaiTanggalGroupAbsen" style="display: none;"><label>Sampai Tanggal</label><input type="date" id="filterSampaiTanggalAbsen"></div>
+        </div>
+        <div class="filter-actions">
+          <button class="btn-filter" onclick="applyFilterAbsen()"><i class="fa-solid fa-magnifying-glass"></i> Terapkan Filter</button>
+          <button class="btn-reset" onclick="resetFilterAbsen()"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+          <button class="btn-download" onclick="exportAbsenExcel()"><i class="fa-solid fa-file-excel"></i> Excel</button>
+          <button class="btn-pdf" onclick="exportAbsenPDF()"><i class="fa-solid fa-file-pdf"></i> PDF</button>
+        </div>
+      </div>
+
+      <div class="stats-container cols-4">
+        <div class="stats-card"><div class="stats-number" id="statTotalAbsen">0</div><div class="stats-label">Total Data</div></div>
+        <div class="stats-card" style="background: linear-gradient(135deg, #2e8b57, #1f6e42);"><div class="stats-number" id="statHadirAbsen">0</div><div class="stats-label">Hadir</div></div>
+        <div class="stats-card" style="background: linear-gradient(135deg, #a8362f, #7a2822);"><div class="stats-number" id="statTidakHadirAbsen">0</div><div class="stats-label">Tdk Hadir</div></div>
+        <div class="stats-card" style="background: linear-gradient(135deg, #d4af37, #b8952c); color:#000;"><div class="stats-number" id="statPersenAbsen">0%</div><div class="stats-label">Kehadiran</div></div>
+      </div>
+
+      <div class="table-wrapper">
+        <table id="tblAbsen">
+          <thead><tr><th>No</th><th>Tanggal</th><th>Waktu</th><th>Nama</th><th>Status</th><th>Aksi</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
@@ -508,7 +568,7 @@ const DATA_SURAT = {
     30: ['An-Naba\'', '\'Abasa',  'At-Takwir', 'Al-Infitar', 'Al-Mutaffifin', 'Al-Insyiqaq', 'Al-Buruj', 'At-Tariq', 'Al-A`la', 'Al-Ghasiyah', 'Al-Fajr', 'Al-Balad', 'Asy-Syams', 'Al-Lail', 'Ad-Duha', 'Ash-Sharh', 'At-Tin', 'Al-`Alaq', 'Al-Qadr', 'Al-Bayyinah', 'Az-Zalzalah', 'Al-Adiyat', 'Al-Qari\'ah', 'At-Takathur', 'Al-Asr', 'Al-Humazah', 'Al-Fil', 'Quraysh', 'Al-Ma\'un', 'Al-Kautsar', 'Al-Kafirun', 'An-Nasr', 'Al-Masad', 'Al-Ikhlas', 'Al-Falaq', 'An-Nas']
 };
 
-let santriList = [], editRow = null;
+let santriList = [], editRow = null, editingSantriId = null;
 let allData = [], filteredData = [], originalRowIndices = [];
 
 // ==========================================
@@ -621,6 +681,7 @@ function navigasiKe(page) {
     } else if (page === 'santri') {
         document.getElementById('sectionAbsensi').style.display = 'none';
         document.getElementById('sectionSantri').style.display = 'block';
+        batalEditSantri();
         renderDaftarSantri();
     }
 }
@@ -672,25 +733,64 @@ function loadSantriForFilter(){
 function tambahSantri() {
     const inputNama = document.getElementById('inputNamaSantri');
     const inputKelompok = document.getElementById('inputKelompokSantri');
-    
+
     const nama = inputNama.value.trim();
     const kelompok = inputKelompok.value.trim();
-    
+
     if(!nama) return alert('Nama santri tidak boleh kosong!');
-    
+
     let santri = getSantriData();
-    if(santri.some(s => s.nama.toLowerCase() === nama.toLowerCase())) {
-        return alert('Nama santri sudah terdaftar di Master Data!');
+
+    if(editingSantriId !== null) {
+        const duplikat = santri.some(s => s.id !== editingSantriId && s.nama.toLowerCase() === nama.toLowerCase());
+        if(duplikat) return alert('Nama santri sudah terdaftar di Master Data!');
+
+        const idx = santri.findIndex(s => s.id === editingSantriId);
+        if(idx !== -1) {
+            santri[idx].nama = nama;
+            santri[idx].kelompok = kelompok;
+        }
+        santri.sort((a, b) => a.nama.localeCompare(b.nama));
+        saveSantriData(santri);
+        showToast('Data santri berhasil diperbarui!');
+        batalEditSantri();
+    } else {
+        if(santri.some(s => s.nama.toLowerCase() === nama.toLowerCase())) {
+            return alert('Nama santri sudah terdaftar di Master Data!');
+        }
+
+        santri.push({ id: Date.now(), nama: nama, kelompok: kelompok });
+        santri.sort((a, b) => a.nama.localeCompare(b.nama));
+        saveSantriData(santri);
+        showToast('Santri berhasil ditambahkan!');
     }
-    
-    santri.push({ id: Date.now(), nama: nama, kelompok: kelompok });
-    santri.sort((a, b) => a.nama.localeCompare(b.nama));
-    saveSantriData(santri);
-    
+
     inputNama.value = '';
     inputKelompok.value = '';
     renderDaftarSantri();
-    showToast('Santri berhasil ditambahkan!');
+}
+
+function editSantri(id) {
+    const santri = getSantriData();
+    const item = santri.find(s => s.id === id);
+    if(!item) return;
+
+    editingSantriId = id;
+    document.getElementById('inputNamaSantri').value = item.nama;
+    document.getElementById('inputKelompokSantri').value = item.kelompok || '';
+    document.getElementById('labelFormSantri').innerText = 'Edit Data Santri';
+    document.getElementById('btnSimpanSantri').innerText = 'Update';
+    document.getElementById('btnBatalEditSantri').style.display = 'inline-block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function batalEditSantri() {
+    editingSantriId = null;
+    document.getElementById('inputNamaSantri').value = '';
+    document.getElementById('inputKelompokSantri').value = '';
+    document.getElementById('labelFormSantri').innerText = 'Tambah Santri Baru';
+    document.getElementById('btnSimpanSantri').innerText = 'Tambah';
+    document.getElementById('btnBatalEditSantri').style.display = 'none';
 }
 
 function renderDaftarSantri() {
@@ -709,8 +809,11 @@ function renderDaftarSantri() {
                 <td style="padding: 10px; border-bottom: 1px solid #eee;">${index + 1}</td>
                 <td style="padding: 10px; border-bottom: 1px solid #eee; font-weight:bold; text-align: left;">${s.nama}</td>
                 <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: left;">${s.kelompok || '-'}</td>
-                <td style="padding: 10px; border-bottom: 1px solid #eee; text-align:center;">
-                    <button onclick="hapusSantri(${s.id})" style="background:#a8362f; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">
+                <td style="padding: 10px; border-bottom: 1px solid #eee; text-align:center; white-space:nowrap;">
+                    <button onclick="editSantri(${s.id})" style="background:#c98f1f; color:white; border:none; padding:5px 9px; border-radius:4px; cursor:pointer; margin-right:5px;">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button onclick="hapusSantri(${s.id})" style="background:#a8362f; color:white; border:none; padding:5px 9px; border-radius:4px; cursor:pointer;">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </td>
@@ -724,6 +827,7 @@ function hapusSantri(id) {
     let santri = getSantriData();
     santri = santri.filter(s => s.id !== id);
     saveSantriData(santri);
+    if(editingSantriId === id) batalEditSantri();
     renderDaftarSantri();
     showToast('Data Santri dihapus!');
 }
@@ -783,13 +887,15 @@ function generateFormAbsen() {
         if(existing) statusDefault = existing.status;
         
         tbody.innerHTML += `
-            <tr>
-                <td style="text-align:left; font-weight:600; font-size:14px; border-bottom: 1px solid #eee; padding: 10px 5px;">${s.nama}</td>
-                <td style="border-bottom: 1px solid #eee; text-align:center;"><input type="radio" name="absen_${index}" value="H" ${statusDefault === 'H' ? 'checked' : ''} style="width:20px; height:20px; accent-color:#2e8b57;"></td>
-                <td style="border-bottom: 1px solid #eee; text-align:center;"><input type="radio" name="absen_${index}" value="S" ${statusDefault === 'S' ? 'checked' : ''} style="width:20px; height:20px; accent-color:#c98f1f;"></td>
-                <td style="border-bottom: 1px solid #eee; text-align:center;"><input type="radio" name="absen_${index}" value="I" ${statusDefault === 'I' ? 'checked' : ''} style="width:20px; height:20px; accent-color:#0e7c86;"></td>
-                <td style="border-bottom: 1px solid #eee; text-align:center;"><input type="radio" name="absen_${index}" value="A" ${statusDefault === 'A' ? 'checked' : ''} style="width:20px; height:20px; accent-color:#a8362f;"></td>
-            </tr>
+            <div class="absen-row">
+                <div class="absen-nama">${s.nama}</div>
+                <div class="absen-chips">
+                    <label class="absen-chip chip-h"><input type="radio" name="absen_${index}" value="H" ${statusDefault === 'H' ? 'checked' : ''}><span>H</span></label>
+                    <label class="absen-chip chip-s"><input type="radio" name="absen_${index}" value="S" ${statusDefault === 'S' ? 'checked' : ''}><span>S</span></label>
+                    <label class="absen-chip chip-i"><input type="radio" name="absen_${index}" value="I" ${statusDefault === 'I' ? 'checked' : ''}><span>I</span></label>
+                    <label class="absen-chip chip-a"><input type="radio" name="absen_${index}" value="A" ${statusDefault === 'A' ? 'checked' : ''}><span>A</span></label>
+                </div>
+            </div>
         `;
     });
     
@@ -803,14 +909,14 @@ function simpanDataAbsensi() {
     if(!tanggal || !waktu) return alert('Tanggal dan Waktu tidak valid!');
     
     const tbody = document.getElementById('bodyInputAbsen');
-    const rows = tbody.querySelectorAll('tr');
+    const rows = tbody.querySelectorAll('.absen-row');
     
     let absenData = getAbsensiData();
     absenData = absenData.filter(a => !(a.tanggal === tanggal && a.waktu === waktu));
     
     let jumlahDisimpan = 0;
     rows.forEach((row, index) => {
-        const nama = row.querySelector('td').innerText;
+        const nama = row.querySelector('.absen-nama').innerText;
         const radios = row.querySelectorAll(`input[name="absen_${index}"]`);
         let status = 'H';
         radios.forEach(r => { if(r.checked) status = r.value; });
@@ -829,41 +935,127 @@ function simpanDataAbsensi() {
     showToast(`Absensi ${jumlahDisimpan} santri berhasil disimpan!`);
 }
 
-function renderRekapAbsensi() {
-    const filterBulan = document.getElementById('filterBulanAbsen').value;
+const STATUS_MAP_ABSEN = {
+    H: { label: 'Hadir', color: '#2e8b57' },
+    S: { label: 'Sakit', color: '#c98f1f' },
+    I: { label: 'Izin', color: '#0e7c86' },
+    A: { label: 'Alpa', color: '#a8362f' }
+};
+
+let filteredAbsenData = [];
+
+function loadSantriForFilterAbsen() {
+    const santriMaster = getSantriData();
+    document.getElementById('filterNamaAbsen').innerHTML = '<option value="">Semua Santri</option>' + santriMaster.map(s => `<option value="${s.nama}">${s.nama}</option>`).join('');
+}
+
+function updatePeriodeInputAbsen() {
+    const p = document.getElementById('filterPeriodeAbsen').value;
+    document.getElementById('mingguGroupAbsen').style.display = p === 'minggu' ? 'block' : 'none';
+    document.getElementById('bulanGroupAbsen').style.display = p === 'bulan' ? 'block' : 'none';
+    document.getElementById('dariTanggalGroupAbsen').style.display = p === 'custom' ? 'block' : 'none';
+    document.getElementById('sampaiTanggalGroupAbsen').style.display = p === 'custom' ? 'block' : 'none';
+}
+
+function filterAbsenData() {
+    const fNama = document.getElementById('filterNamaAbsen').value;
+    const fStatus = document.getElementById('filterStatusAbsen').value;
+    const fWaktu = document.getElementById('filterWaktuAbsen').value;
+    const fPeriode = document.getElementById('filterPeriodeAbsen').value;
     const absenData = getAbsensiData();
-    const tbody = document.getElementById('bodyRekapAbsensi');
-    tbody.innerHTML = '';
-    
-    let filtered = filterBulan ? absenData.filter(a => a.tanggal.startsWith(filterBulan)) : absenData;
+
+    let filtered = absenData.filter(a => {
+        let include = true;
+        if(fNama && a.nama !== fNama) include = false;
+        if(fStatus && a.status !== fStatus) include = false;
+        if(fWaktu && a.waktu !== fWaktu) include = false;
+
+        if(fPeriode && include) {
+            const rowDate = new Date(a.tanggal);
+            if(fPeriode === 'minggu') {
+                const wi = document.getElementById('filterMingguAbsen').value;
+                if(wi) {
+                    const [y, w] = wi.split('-W');
+                    const s = getDateOfISOWeek(w, y);
+                    const e = new Date(s); e.setDate(e.getDate() + 6);
+                    if(rowDate < s || rowDate > e) include = false;
+                }
+            } else if(fPeriode === 'bulan') {
+                const mi = document.getElementById('filterBulanAbsen').value;
+                if(mi) {
+                    const [y, m] = mi.split('-');
+                    if(rowDate.getFullYear() != y || (rowDate.getMonth() + 1) != m) include = false;
+                }
+            } else if(fPeriode === 'custom') {
+                const dt = document.getElementById('filterDariTanggalAbsen').value;
+                const st = document.getElementById('filterSampaiTanggalAbsen').value;
+                if(dt && st) {
+                    const s = new Date(dt), e = new Date(st);
+                    e.setHours(23, 59, 59);
+                    if(rowDate < s || rowDate > e) include = false;
+                }
+            }
+        }
+        return include;
+    });
+
     filtered.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
-    
-    if(filtered.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px;">Tidak ada data absensi</td></tr>';
+    return filtered;
+}
+
+function applyFilterAbsen() {
+    showLoading(true);
+    filteredAbsenData = filterAbsenData();
+    renderAbsenTable(filteredAbsenData);
+    updateStatsAbsen(filteredAbsenData);
+    showLoading(false);
+    showToast(`Ditemukan ${filteredAbsenData.length} data absensi`);
+}
+
+function resetFilterAbsen() {
+    ['filterNamaAbsen', 'filterStatusAbsen', 'filterWaktuAbsen', 'filterMingguAbsen', 'filterDariTanggalAbsen', 'filterSampaiTanggalAbsen'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('filterPeriodeAbsen').value = 'bulan';
+    let today = new Date();
+    document.getElementById('filterBulanAbsen').value = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
+    updatePeriodeInputAbsen();
+    filteredAbsenData = filterAbsenData();
+    renderAbsenTable(filteredAbsenData);
+    updateStatsAbsen(filteredAbsenData);
+    showToast('Filter absensi direset');
+}
+
+function renderRekapAbsensi() {
+    loadSantriForFilterAbsen();
+    filteredAbsenData = filterAbsenData();
+    renderAbsenTable(filteredAbsenData);
+    updateStatsAbsen(filteredAbsenData);
+}
+
+function renderAbsenTable(data) {
+    const tb = document.querySelector('#tblAbsen tbody');
+    tb.innerHTML = '';
+
+    if(data.length === 0) {
+        tb.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:15px;">Tidak ada data absensi</td></tr>';
         return;
     }
-    
-    filtered.forEach(data => {
-        let statusBadge = '';
-        if(data.status === 'H') statusBadge = '<span style="background:#2e8b57; color:#fff; padding:4px 10px; border-radius:12px; font-size:12px; font-weight:bold;">Hadir</span>';
-        else if(data.status === 'S') statusBadge = '<span style="background:#c98f1f; color:#fff; padding:4px 10px; border-radius:12px; font-size:12px; font-weight:bold;">Sakit</span>';
-        else if(data.status === 'I') statusBadge = '<span style="background:#0e7c86; color:#fff; padding:4px 10px; border-radius:12px; font-size:12px; font-weight:bold;">Izin</span>';
-        else statusBadge = '<span style="background:#a8362f; color:#fff; padding:4px 10px; border-radius:12px; font-size:12px; font-weight:bold;">Alpa</span>';
-        
+
+    data.forEach((d, i) => {
+        const st = STATUS_MAP_ABSEN[d.status] || STATUS_MAP_ABSEN.H;
+
         const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td style="padding:10px; border-bottom:1px solid #eee;">${data.tanggal}</td>
-            <td style="padding:10px; border-bottom:1px solid #eee;">${data.waktu.replace('Halqoh ', '')}</td>
-            <td style="padding:10px; border-bottom:1px solid #eee; text-align:left; font-weight:bold;">${data.nama}</td>
-            <td style="padding:10px; border-bottom:1px solid #eee;">${statusBadge}</td>
-            <td style="padding:10px; border-bottom:1px solid #eee;">
-                <button onclick="hapusAbsensi(${data.id})" style="background:#a8362f; color:#fff; border:none; border-radius:6px; padding:6px 12px; cursor:pointer;">
-                    <i class="fa-solid fa-trash"></i>
-                </button>
-            </td>
-        `;
-        tbody.appendChild(tr);
+        tr.innerHTML = `<td>${i + 1}</td><td>${d.tanggal}</td><td>${d.waktu.replace('Halqoh ', '')}</td><td style="text-align:left;">${d.nama}</td><td><span style="background:${st.color}; color:#fff; padding:3px 10px; border-radius:11px; font-size:11px; font-weight:800;">${st.label}</span></td><td><button class="icon-btn edit" onclick="editAbsensiRow(${d.id})" style="margin-right:4px;">✏️</button><button class="icon-btn delete" onclick="hapusAbsensi(${d.id})">🗑️</button></td>`;
+        tb.appendChild(tr);
     });
+}
+
+function updateStatsAbsen(data) {
+    document.getElementById('statTotalAbsen').innerText = data.length;
+    const hadir = data.filter(d => d.status === 'H').length;
+    const tidakHadir = data.length - hadir;
+    document.getElementById('statHadirAbsen').innerText = hadir;
+    document.getElementById('statTidakHadirAbsen').innerText = tidakHadir;
+    document.getElementById('statPersenAbsen').innerText = data.length ? Math.round((hadir / data.length) * 100) + '%' : '0%';
 }
 
 function hapusAbsensi(id) {
@@ -873,6 +1065,19 @@ function hapusAbsensi(id) {
     saveAbsensiData(absenData);
     renderRekapAbsensi();
     showToast('Data absensi dihapus!');
+}
+
+function editAbsensiRow(id) {
+    const absenData = getAbsensiData();
+    const item = absenData.find(a => a.id === id);
+    if(!item) return;
+
+    switchTabAbsensi('input');
+    document.getElementById('tanggalAbsen').value = item.tanggal;
+    document.getElementById('waktuAbsen').value = item.waktu;
+    generateFormAbsen();
+    showToast('Mode edit: ubah status lalu simpan kembali');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 /* ==========================================
@@ -1240,54 +1445,52 @@ function prosesImportExcel(event) {
 // ==========================================
 
 function exportAbsenExcel() {
-    const filterBulan = document.getElementById('filterBulanAbsen').value;
-    let absenData = getAbsensiData();
-    
-    // Filter data sesuai bulan yang dipilih (jika ada)
-    let filtered = filterBulan ? absenData.filter(a => a.tanggal.startsWith(filterBulan)) : absenData;
-    filtered.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
-
-    if(filtered.length === 0) return alert('Tidak ada data absensi untuk diexport!');
+    if(!filteredAbsenData || filteredAbsenData.length === 0) return alert('Tidak ada data absensi untuk diexport!');
 
     const headers = ['Tanggal', 'Waktu', 'Nama Santri', 'Status'];
-    const data = filtered.map(d => {
-        let statusFull = d.status === 'H' ? 'Hadir' : (d.status === 'S' ? 'Sakit' : (d.status === 'I' ? 'Izin' : 'Alpa'));
+    const data = filteredAbsenData.map(d => {
+        let statusFull = STATUS_MAP_ABSEN[d.status] ? STATUS_MAP_ABSEN[d.status].label : d.status;
         return [d.tanggal, d.waktu, d.nama, statusFull];
     });
 
     const ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Rekap Absensi");
-    
-    let namaFile = filterBulan ? `Rekap_Absensi_${filterBulan}.xlsx` : `Rekap_Absensi_Semua.xlsx`;
-    XLSX.writeFile(wb, namaFile);
-    
+
+    const n = new Date();
+    XLSX.writeFile(wb, `Rekap_Absensi_${n.getFullYear()}${String(n.getMonth()+1).padStart(2,'0')}${String(n.getDate()).padStart(2,'0')}.xlsx`);
+
     if(typeof showToast === 'function') showToast('Excel Absensi berhasil di-download!');
 }
 
 function exportAbsenPDF() {
-    const filterBulan = document.getElementById('filterBulanAbsen').value;
-    let absenData = getAbsensiData();
-    
-    // Filter data sesuai bulan yang dipilih
-    let filtered = filterBulan ? absenData.filter(a => a.tanggal.startsWith(filterBulan)) : absenData;
-    filtered.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
-
-    if(filtered.length === 0) return alert('Tidak ada data absensi untuk diexport!');
+    if(!filteredAbsenData || filteredAbsenData.length === 0) return alert('Tidak ada data absensi untuk diexport!');
 
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF('p', 'mm', 'a4'); // Kertas A4 mode Portrait
-    
+
     // Judul PDF
     doc.setFontSize(16); doc.setTextColor(10, 143, 90); doc.text('REKAPITULASI ABSENSI HALQOH', 105, 15, { align: 'center' });
     doc.setFontSize(12); doc.setTextColor(100); doc.text('MUTABAAH DIGITAL PRO', 105, 22, { align: 'center' });
-    
-    let infoBulan = filterBulan ? `Periode Bulan: ${filterBulan}` : 'Semua Data Absensi';
-    doc.setFontSize(10); doc.text(infoBulan, 105, 28, { align: 'center' });
+
+    // Info filter yang sedang aktif
+    let info = [];
+    if(document.getElementById('filterNamaAbsen').value) info.push(`Nama: ${document.getElementById('filterNamaAbsen').value}`);
+    if(document.getElementById('filterStatusAbsen').value) info.push(`Status: ${STATUS_MAP_ABSEN[document.getElementById('filterStatusAbsen').value].label}`);
+    if(document.getElementById('filterWaktuAbsen').value) info.push(`Waktu: ${document.getElementById('filterWaktuAbsen').value}`);
+    const fp = document.getElementById('filterPeriodeAbsen').value;
+    if(fp === 'minggu' && document.getElementById('filterMingguAbsen').value) info.push(`Minggu: ${document.getElementById('filterMingguAbsen').value}`);
+    else if(fp === 'bulan' && document.getElementById('filterBulanAbsen').value) info.push(`Bulan: ${document.getElementById('filterBulanAbsen').value}`);
+    else if(fp === 'custom') {
+        const d = document.getElementById('filterDariTanggalAbsen').value;
+        const s = document.getElementById('filterSampaiTanggalAbsen').value;
+        if(d && s) info.push(`Periode: ${d} s/d ${s}`);
+    }
+    doc.setFontSize(10); doc.text(info.length ? info.join(' | ') : 'Semua Data Absensi', 105, 28, { align: 'center' });
 
     // Menyusun data tabel
-    const td = filtered.map((d, i) => {
-        let statusFull = d.status === 'H' ? 'Hadir' : (d.status === 'S' ? 'Sakit' : (d.status === 'I' ? 'Izin' : 'Alpa'));
+    const td = filteredAbsenData.map((d, i) => {
+        let statusFull = STATUS_MAP_ABSEN[d.status] ? STATUS_MAP_ABSEN[d.status].label : d.status;
         return [i+1, d.tanggal, d.waktu, d.nama, statusFull];
     });
 
@@ -1303,13 +1506,18 @@ function exportAbsenPDF() {
         alternateRowStyles: { fillColor: [240, 248, 240] }
     });
 
-    // Keterangan waktu cetak
-    doc.setFontSize(9); doc.setTextColor(100); doc.text(`Dicetak pada: ${new Date().toLocaleString('id-ID')}`, 105, doc.lastAutoTable.finalY + 10, { align: 'center' });
-    
+    // Ringkasan & keterangan waktu cetak
+    const fy = doc.lastAutoTable.finalY + 10;
+    const hadir = filteredAbsenData.filter(d => d.status === 'H').length;
+    const persen = filteredAbsenData.length ? Math.round((hadir / filteredAbsenData.length) * 100) : 0;
+    doc.setFontSize(10); doc.setTextColor(50);
+    doc.text(`Total Data: ${filteredAbsenData.length}  |  Hadir: ${hadir}  |  Persentase Kehadiran: ${persen}%`, 105, fy, { align: 'center' });
+    doc.setFontSize(9); doc.setTextColor(100); doc.text(`Dicetak pada: ${new Date().toLocaleString('id-ID')}`, 105, fy + 7, { align: 'center' });
+
     // Download File
-    let namaFile = filterBulan ? `Rekap_Absensi_${filterBulan}.pdf` : `Rekap_Absensi_Semua.pdf`;
-    doc.save(namaFile);
-    
+    const n = new Date();
+    doc.save(`Rekap_Absensi_${n.getFullYear()}${String(n.getMonth()+1).padStart(2,'0')}${String(n.getDate()).padStart(2,'0')}.pdf`);
+
     if(typeof showToast === 'function') showToast('PDF Absensi berhasil di-download!');
 }
 
